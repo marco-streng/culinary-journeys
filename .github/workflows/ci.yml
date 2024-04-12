@@ -1,9 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches-ignore:
-      - main
+on: push
 
 env:
   VITE_MAP_DEFAULT_LAT: ${{ vars.MAP_DEFAULT_LAT }}
