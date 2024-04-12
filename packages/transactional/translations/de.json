@@ -1,0 +1,16 @@
+{
+  "newRating": {
+    "preview": "Neue Bewertung",
+    "subject": "Kulinarische Reisen - Neue Bewertung",
+    "headline": "Neue Bewertung",
+    "content": ["hat", "mit", " Sternen bewertet."],
+    "open": "Jetzt ansehen"
+  },
+  "newRestaurant": {
+    "preview": "Neues Restaurant",
+    "subject": "Kulinarische Reisen - Neues Restaurant",
+    "headline": "Neues Restaurant",
+    "open": "Jetzt ansehen"
+  },
+  "footer": "Culinary Journeys | Plan & Track your restaurant trips."
+}

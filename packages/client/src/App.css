@@ -1,0 +1,25 @@
+.ci-arrow {
+  position: absolute;
+  bottom: 10px;
+  left: -9px;
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-right: 9px solid #fff;
+  border-bottom: 9px solid transparent;
+}
+
+.ci-rating_star {
+  cursor: pointer;
+  fill: #ccc;
+  display: inline;
+}
+
+.ci-rating:hover .ci-rating_star,
+.ci-rating_star--active {
+  fill: gold;
+}
+
+.ci-rating_star:hover ~ .ci-rating_star {
+  fill: #ccc;
+}

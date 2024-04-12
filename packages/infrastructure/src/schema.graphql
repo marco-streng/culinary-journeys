@@ -1,0 +1,131 @@
+scalar AWSDate
+scalar AWSEmail
+
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  groups: [Group!]
+}
+
+type Group {
+  id: ID!
+  name: String!
+}
+
+type Restaurant {
+  id: ID!
+  google_place_id: String @deprecated(reason: "Use googlePlaceId field")
+  googlePlaceId: String!
+  name: String!
+  address: String
+  website: String
+  position: Position!
+  ratings: [Rating!]!
+  visits: [AWSDate!]
+  images: [String!]
+  createdBy: User
+}
+
+type Rating {
+  id: ID!
+  value: Int!
+  userId: ID!
+  userName: String!
+  comment: String
+}
+
+type Position {
+  lat: Float!
+  lng: Float!
+}
+
+type UploadUrl {
+  fileName: String!
+  url: String!
+}
+
+input PositionInput {
+  lat: Float!
+  lng: Float!
+}
+
+input CreateRestaurantInput {
+  group: String!
+  name: String!
+  address: String
+  website: String
+  position: PositionInput
+  visits: [AWSDate]
+  google_place_id: String @deprecated(reason: "Use googlePlaceId field")
+  googlePlaceId: String!
+}
+
+input UpdateRestaurantInput {
+  id: ID!
+  group: String!
+  createVisits: [AWSDate!]
+}
+
+input CreateRatingInput {
+  id: ID!
+  value: Int!
+  comment: String
+}
+
+input CreateDateInput {
+  date: AWSDate!
+}
+
+input FileInput {
+  name: String!
+  type: String!
+}
+
+input CreateUploadUrlsInput {
+  files: [FileInput!]!
+}
+
+input CreateImagesInput {
+  id: ID!
+  fileNames: [String!]!
+}
+
+input CreateUserInput {
+  name: String!
+  email: AWSEmail!
+  groupIds: [ID!]
+}
+
+input CreateGroupInput {
+  name: String!
+}
+
+input UpdateUserInput {
+  id: ID!
+  addGroupIds: [ID!]
+}
+
+type Mutation {
+  createDate(input: CreateDateInput!): AWSDate!
+  createImages(input: CreateImagesInput!): [String]!
+  createRating(input: CreateRatingInput!): Rating!
+  createRestaurant(input: CreateRestaurantInput!): Restaurant!
+  createUploadUrls(input: CreateUploadUrlsInput!): [UploadUrl!]!
+  createUser(input: CreateUserInput!): User!
+  createGroup(input: CreateGroupInput!): Group!
+  updateUser(input: UpdateUserInput!): User!
+  deleteRestaurant(input: ID!): Restaurant!
+  updateRestaurant(input: UpdateRestaurantInput!): Restaurant!
+}
+
+type Query {
+  dates(from: AWSDate!): [AWSDate!]!
+  groups(ids: [ID!]!): [Group!]!
+  restaurants(group: String!): [Restaurant!]!
+  user(id: ID!): User!
+}
+
+type Subscription {
+  createdRating: Rating @aws_subscribe(mutations: ["createRating"])
+}

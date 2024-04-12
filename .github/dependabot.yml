@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+      time: '04:00'
+    reviewers:
+      - 'marco-streng'
+    groups:
+      aws-sdk:
+        patterns:
+          - '@aws-sdk*'

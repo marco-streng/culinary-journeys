@@ -1,0 +1,10 @@
+node_modules
+.DS_Store
+dist
+
+## Infrastrucutre
+packages/infrastructure/*.js
+!packages/infrastructure/jest.config.js
+packages/infrastructure/*.d.ts
+packages/infrastructure/.cdk.staging
+packages/infrastructure/cdk.out
