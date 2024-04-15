@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^4.36.1",
-    "@vis.gl/react-google-maps": "^0.8.2",
+    "@vis.gl/react-google-maps": "^0.8.3",
     "autoprefixer": "^10.4.19",
     "aws-amplify": "^6.0.26",
     "axios": "^1.6.8",
