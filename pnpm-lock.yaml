@@ -27,8 +27,8 @@ importers:
         specifier: ^4.36.1
         version: 4.36.1(react-dom@18.2.0)(react@18.2.0)
       '@vis.gl/react-google-maps':
-        specifier: ^0.8.2
-        version: 0.8.2(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^0.8.3
+        version: 0.8.3(react-dom@18.2.0)(react@18.2.0)
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
@@ -7446,8 +7446,8 @@ packages:
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  /@vis.gl/react-google-maps@0.8.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-A+ICef0Jun1nrspANfIM/yOhR4SNaH4Z9uJdzUcu5DPVoURhDUyU2zhL9CXTflSlTGd+etHTveytmZdPml9Gkg==}
+  /@vis.gl/react-google-maps@0.8.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-iubZIH9MJSkJA9NCMwKkMlHb/iNSeXzVRE7fPVhkKJPId6TBvQcpKA98tirUXi2AfEkYL+IVcE3doL6WdeQ2QA==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
