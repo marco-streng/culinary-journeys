@@ -239,8 +239,8 @@ importers:
         specifier: ^0.0.15
         version: 0.0.15(@types/react@18.2.66)(react-email@2.1.1)(react@18.2.0)
       '@react-email/tailwind':
-        specifier: ^0.0.14
-        version: 0.0.14(react@18.2.0)
+        specifier: ^0.0.15
+        version: 0.0.15(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
