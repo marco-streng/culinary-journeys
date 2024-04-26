@@ -7,10 +7,12 @@ import {
   CreateUploadUrlsMutationVariables,
 } from '../types/gql';
 
-// TODO: visualize upload process to user
-// export type UploadProgress = {
-//   [key: string]: number;
-// };
+export type UploadProgress = {
+  [key: string]: {
+    name: string;
+    progress: number;
+  };
+};
 
 export const getUserGroups = async () => {
   const { tokens } = (await fetchAuthSession()) ?? {};
@@ -55,7 +57,10 @@ export const fetcher = <TData, TVariables extends { [key: string]: unknown }>(
     });
 };
 
-export const uploader = async (files: File[]) => {
+export const uploader = async (
+  files: File[],
+  options?: { onProgress?: (progress: UploadProgress) => void },
+) => {
   const fetchLinks = async (files: File[]) => {
     const result = await fetcher<
       CreateUploadUrlsMutation,
@@ -78,24 +83,24 @@ export const uploader = async (files: File[]) => {
     throw new Error('No upload urls available');
   }
 
-  // const progress: UploadProgress = {};
+  const progress: UploadProgress = {};
 
   const uploads = files.map(async (file, index) => {
-    const { url } = links[index];
+    const { url, fileName: key } = links[index];
 
     try {
       await axios.put(url, file, {
         headers: {
           'Content-Type': file.type,
         },
-        // onUploadProgress: (progressEvent: {
-        //   loaded: number;
-        //   total: number;
-        // }) => {
-        //   progress[file.id] =
-        //     (progressEvent.loaded / progressEvent.total) * 100;
-        //   onProgress(progress);
-        // },
+
+        onUploadProgress: ({ loaded, total }) => {
+          progress[key] = {
+            name: file.name,
+            progress: (loaded / (total ?? 0)) * 100,
+          };
+          options?.onProgress && options.onProgress(progress);
+        },
       });
     } catch (error) {
       console.log({ error });

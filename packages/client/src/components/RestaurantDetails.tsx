@@ -12,13 +12,12 @@ import {
 } from 'react-icons/bs';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
-import { uploader } from '../lib';
+import { uploader, type UploadProgress } from '../lib';
 import {
   RestaurantsQuery,
   useCreateImagesMutation,
   useRestaurantsQuery,
 } from '../types/gql';
-import { Loader } from './Loader';
 import { Rating } from './Rating';
 
 dayjs.locale(de);
@@ -38,6 +37,7 @@ export const RestaurantDetails = ({
 }) => {
   const { t } = useTranslation();
   const [isUploading, setIsUploading] = useState(false);
+  const [progress, setProgress] = useState<UploadProgress | undefined>();
   const queryClient = useQueryClient();
 
   const { mutateAsync: createImages } = useCreateImagesMutation();
@@ -45,7 +45,9 @@ export const RestaurantDetails = ({
   const handleUpload = async (files: File[]) => {
     setIsUploading(true);
 
-    const upload = await uploader(files);
+    const upload = await uploader(files, {
+      onProgress: setProgress,
+    });
 
     await createImages({
       input: {
@@ -207,8 +209,25 @@ export const RestaurantDetails = ({
           </ul>
         )}
       </div>
-      {isUploading ? (
-        <Loader full={false} />
+      {!isUploading ? (
+        <>
+          {progress &&
+            Object.values(progress).map(({ name, progress }) => (
+              <div key={name} className="border-b border-gray-300 py-2">
+                <div className="grid grid-cols-4 items-center gap-x-6">
+                  <div className="break-words">{name}</div>
+                  <div className="col-span-3">
+                    <div className="h-2.5 w-full rounded-xl bg-gray-200 dark:bg-gray-700">
+                      <div
+                        className="h-2.5 rounded-xl bg-sky-600"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </>
       ) : (
         <Dropzone onDrop={(files) => handleUpload(files)}>
           {({ getRootProps, getInputProps }) => (
