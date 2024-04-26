@@ -25,7 +25,7 @@ export const Modal = ({
         >
           <div
             ref={innerRef}
-            className="relative w-full transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 md:max-w-screen-md"
+            className="relative w-full transform overflow-hidden rounded-sm bg-white text-left shadow-xl transition-all sm:my-8 md:max-w-screen-md"
           >
             {children}
           </div>
