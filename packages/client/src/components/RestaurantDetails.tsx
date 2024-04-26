@@ -209,7 +209,7 @@ export const RestaurantDetails = ({
           </ul>
         )}
       </div>
-      {!isUploading ? (
+      {isUploading ? (
         <>
           {progress &&
             Object.values(progress).map(({ name, progress }) => (
