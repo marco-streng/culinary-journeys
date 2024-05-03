@@ -173,13 +173,13 @@ export const Map = ({
     <>
       <div className="flex flex-col-reverse md:flex-row">
         <div
-          className={`w-full overflow-y-auto bg-stone-200 md:h-screen ${
+          className={`w-full overflow-y-auto bg-gray-200 md:h-screen ${
             isSidebarOpen ? 'p-4 md:w-1/3 lg:w-1/4' : 'md:w-0 lg:w-0'
           }`}
         >
           <button
             type="button"
-            className={`absolute top-1/2 hidden bg-stone-200 md:block ${
+            className={`absolute top-1/2 hidden bg-gray-200 md:block ${
               isSidebarOpen ? 'md:left-1/3 lg:left-1/4' : 'left-0'
             } z-30`}
             onClick={() => setIsSidebarOpen((value) => !value)}
@@ -221,7 +221,7 @@ export const Map = ({
             <BiSort
               size={23}
               onClick={() => setVisitedFirst((value) => !value)}
-              className="inline cursor-pointer fill-stone-600"
+              className="inline cursor-pointer fill-gray-600"
             />
           </div>
 

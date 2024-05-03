@@ -36,7 +36,7 @@ const NewRating = (props: NewRatingProps) => {
       <Head />
       <Preview>{translations.newRating.preview}</Preview>
       <Tailwind>
-        <Body className="mx-auto my-auto bg-stone-200 px-2 font-sans">
+        <Body className="mx-auto my-auto bg-gray-200 px-2 font-sans">
           <Container className="mx-auto my-[40px] max-w-[465px] rounded-sm bg-white p-[20px]">
             <Section className="mt-[32px]">
               <Img
