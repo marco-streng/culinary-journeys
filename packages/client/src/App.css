@@ -1,12 +1,13 @@
 .ci-arrow {
   position: absolute;
-  bottom: 10px;
-  left: -9px;
+  bottom: -10px;
+  left: 50%;
+  margin-left: -10px;
   width: 0;
   height: 0;
-  border-top: 9px solid transparent;
-  border-right: 9px solid #fff;
-  border-bottom: 9px solid transparent;
+  border-top: 10px solid #fff;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
 }
 
 .ci-rating_star {
