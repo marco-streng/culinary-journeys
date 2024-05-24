@@ -52,6 +52,6 @@
     "eslint": "^8.57.0",
     "eslint-plugin-vitest": "^0.5.4",
     "ts-node": "^10.9.2",
-    "vitest": "^1.5.3"
+    "vitest": "^1.6.0"
   }
 }
