@@ -30,7 +30,7 @@
     "aws-lambda": "^1.0.7",
     "constructs": "^10.3.0",
     "mime-types": "^2.1.35",
-    "sharp": "^0.33.2",
+    "sharp": "^0.33.4",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
