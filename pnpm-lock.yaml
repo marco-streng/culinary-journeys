@@ -34,7 +34,7 @@ importers:
         version: 10.4.19(postcss@8.4.38)
       aws-amplify:
         specifier: ^6.3.2
-        version: 6.3.2(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+        version: 6.3.2(aws-cdk-lib@2.143.1)(constructs@10.3.0)
       axios:
         specifier: ^1.7.2
         version: 1.7.2
@@ -157,8 +157,8 @@ importers:
         specifier: ^0.0.12
         version: 0.0.12
       aws-cdk-lib:
-        specifier: ^2.141.0
-        version: 2.141.0(constructs@10.3.0)
+        specifier: ^2.143.1
+        version: 2.143.1(constructs@10.3.0)
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -354,12 +354,12 @@ packages:
       - aws-crt
     dev: false
 
-  /@aws-amplify/api-graphql@4.1.2(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /@aws-amplify/api-graphql@4.1.2(aws-cdk-lib@2.143.1)(constructs@10.3.0):
     resolution: {integrity: sha512-942OtuUpjy4ht24qJm9TKFB9ZLmSVGmrIw+5/JcFMLelueZ9n/JhhaIfCKAssfRb5P5050GoA4I6zlHB3hSGFw==}
     dependencies:
       '@aws-amplify/api-rest': 4.0.31(@aws-amplify/core@6.2.1)
       '@aws-amplify/core': 6.2.1
-      '@aws-amplify/data-schema': 1.2.2(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+      '@aws-amplify/data-schema': 1.2.2(aws-cdk-lib@2.143.1)(constructs@10.3.0)
       '@aws-sdk/types': 3.387.0
       graphql: 15.8.0
       rxjs: 7.8.1
@@ -379,10 +379,10 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-amplify/api@6.0.33(@aws-amplify/core@6.2.1)(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /@aws-amplify/api@6.0.33(@aws-amplify/core@6.2.1)(aws-cdk-lib@2.143.1)(constructs@10.3.0):
     resolution: {integrity: sha512-kKkKG7MWccqgYiiIM8UCtToQFHVoDJ1PKPd/LB1DqudGkr314KGwnVI+x84jUijfBmN/VAsuwMUxzUst4bsHRw==}
     dependencies:
-      '@aws-amplify/api-graphql': 4.1.2(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+      '@aws-amplify/api-graphql': 4.1.2(aws-cdk-lib@2.143.1)(constructs@10.3.0)
       '@aws-amplify/api-rest': 4.0.31(@aws-amplify/core@6.2.1)
       tslib: 2.6.2
     transitivePeerDependencies:
@@ -413,20 +413,20 @@ packages:
       uuid: 9.0.1
     dev: false
 
-  /@aws-amplify/data-schema-types@0.7.14(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /@aws-amplify/data-schema-types@0.7.14(aws-cdk-lib@2.143.1)(constructs@10.3.0):
     resolution: {integrity: sha512-zvo1j6NljHsV62KnEz560rTx9jJ1KfTz0OOqZjW/CP1AtWdlakM2ADBAn9z4AL+bKrt31CrAr55ZOAo6Uk+LTw==}
     dependencies:
-      '@aws-amplify/plugin-types': 0.9.0-beta.1(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+      '@aws-amplify/plugin-types': 0.9.0-beta.1(aws-cdk-lib@2.143.1)(constructs@10.3.0)
       rxjs: 7.8.1
     transitivePeerDependencies:
       - aws-cdk-lib
       - constructs
     dev: false
 
-  /@aws-amplify/data-schema@1.2.2(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /@aws-amplify/data-schema@1.2.2(aws-cdk-lib@2.143.1)(constructs@10.3.0):
     resolution: {integrity: sha512-FIWfboaCtz4JEM8BZEfkt/IHIyyduteqOKDKR1aRCNgI3pxYhbYduOZiphoGjqi7KqtgbPnriSv6vcLo/rCwpw==}
     dependencies:
-      '@aws-amplify/data-schema-types': 0.7.14(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+      '@aws-amplify/data-schema-types': 0.7.14(aws-cdk-lib@2.143.1)(constructs@10.3.0)
       '@types/aws-lambda': 8.10.136
       rxjs: 7.8.1
     transitivePeerDependencies:
@@ -434,12 +434,12 @@ packages:
       - constructs
     dev: false
 
-  /@aws-amplify/datastore@5.0.33(@aws-amplify/core@6.2.1)(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /@aws-amplify/datastore@5.0.33(@aws-amplify/core@6.2.1)(aws-cdk-lib@2.143.1)(constructs@10.3.0):
     resolution: {integrity: sha512-The1jWh5oQaO7/b284NyYBDF20wqtIyza7qjBf73T3+kTkIviNlSN9hYcFeQWjzmqn/7ScUQGePG6uVWMd3lSQ==}
     peerDependencies:
       '@aws-amplify/core': ^6.1.0
     dependencies:
-      '@aws-amplify/api': 6.0.33(@aws-amplify/core@6.2.1)(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+      '@aws-amplify/api': 6.0.33(@aws-amplify/core@6.2.1)(aws-cdk-lib@2.143.1)(constructs@10.3.0)
       '@aws-amplify/core': 6.2.1
       buffer: 4.9.2
       idb: 5.0.6
@@ -461,13 +461,13 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-amplify/plugin-types@0.9.0-beta.1(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /@aws-amplify/plugin-types@0.9.0-beta.1(aws-cdk-lib@2.143.1)(constructs@10.3.0):
     resolution: {integrity: sha512-5eJ2SYoXbq4ZSvBjCgStXSejNOKuBkxYVXqOXZP4xP5C9iIpUYG36s9xP+IdhWDm9K/yxklp8OUMr8YGc0g7tw==}
     peerDependencies:
       aws-cdk-lib: ^2.127.0
       constructs: ^10.0.0
     dependencies:
-      aws-cdk-lib: 2.143.0(constructs@10.3.0)
+      aws-cdk-lib: 2.143.1(constructs@10.3.0)
       constructs: 10.3.0
     dev: false
 
@@ -9091,14 +9091,14 @@ packages:
     dependencies:
       possible-typed-array-names: 1.0.0
 
-  /aws-amplify@6.3.2(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /aws-amplify@6.3.2(aws-cdk-lib@2.143.1)(constructs@10.3.0):
     resolution: {integrity: sha512-vjpw3UhC87wsqOzV3KlWLUf88ddRpJt1ZLdzAGKxTzftysFwCtEDnZ8/ICrfRVEvXvfex3q8qriPTWTnE6Ni6w==}
     dependencies:
       '@aws-amplify/analytics': 7.0.31(@aws-amplify/core@6.2.1)
-      '@aws-amplify/api': 6.0.33(@aws-amplify/core@6.2.1)(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+      '@aws-amplify/api': 6.0.33(@aws-amplify/core@6.2.1)(aws-cdk-lib@2.143.1)(constructs@10.3.0)
       '@aws-amplify/auth': 6.3.2(@aws-amplify/core@6.2.1)
       '@aws-amplify/core': 6.2.1
-      '@aws-amplify/datastore': 5.0.33(@aws-amplify/core@6.2.1)(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+      '@aws-amplify/datastore': 5.0.33(@aws-amplify/core@6.2.1)(aws-cdk-lib@2.143.1)(constructs@10.3.0)
       '@aws-amplify/notifications': 2.0.31(@aws-amplify/core@6.2.1)
       '@aws-amplify/storage': 6.4.2(@aws-amplify/core@6.2.1)
       tslib: 2.6.2
@@ -9108,32 +9108,8 @@ packages:
       - constructs
     dev: false
 
-  /aws-cdk-lib@2.141.0(constructs@10.3.0):
-    resolution: {integrity: sha512-xda56Lfwpdqg9MssnFdXrAKTmeeNjfrfFCaWwqGqToG6cfGY2W+6wyyoObX60/MeZGhhs3Lhdb/K94ulLJ4X/A==}
-    engines: {node: '>= 14.15.0'}
-    peerDependencies:
-      constructs: ^10.0.0
-    dependencies:
-      '@aws-cdk/asset-awscli-v1': 2.2.202
-      '@aws-cdk/asset-kubectl-v20': 2.1.2
-      '@aws-cdk/asset-node-proxy-agent-v6': 2.0.3
-      constructs: 10.3.0
-    dev: false
-    bundledDependencies:
-      - '@balena/dockerignore'
-      - case
-      - fs-extra
-      - ignore
-      - jsonschema
-      - minimatch
-      - punycode
-      - semver
-      - table
-      - yaml
-      - mime-types
-
-  /aws-cdk-lib@2.143.0(constructs@10.3.0):
-    resolution: {integrity: sha512-mIu+ftBt1OvDEMxpbMNQPZIPtb7ucp+z01xrtaB/3EqZRUXLha2W1/3JodW9X5h7IliFi4oBeMmzH3wWtvHbog==}
+  /aws-cdk-lib@2.143.1(constructs@10.3.0):
+    resolution: {integrity: sha512-GY1+5vRE8x0AWZLrsCeQowpq+Mw8dvKjN+pXLz6HXh6a9zVI+vLPJwBFprTxu05P3slzKu3iOPS5hOa9iaqLiQ==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       constructs: ^10.0.0
