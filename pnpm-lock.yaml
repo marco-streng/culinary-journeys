@@ -154,8 +154,8 @@ importers:
         specifier: workspace:*
         version: link:../transactional
       '@react-email/render':
-        specifier: ^0.0.12
-        version: 0.0.12
+        specifier: ^0.0.15
+        version: 0.0.15
       aws-cdk-lib:
         specifier: ^2.143.1
         version: 2.143.1(constructs@10.3.0)
