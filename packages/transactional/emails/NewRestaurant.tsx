@@ -20,12 +20,15 @@ interface NewRestaurantProps {
       name: string;
       address: string;
     };
+    group?: {
+      name: string;
+    };
   };
 }
 
 const NewRestaurant = (props: NewRestaurantProps) => {
   const {
-    data: { restaurant },
+    data: { restaurant, group },
   } = props;
 
   return (
@@ -52,6 +55,13 @@ const NewRestaurant = (props: NewRestaurantProps) => {
                 <strong>{restaurant.name}</strong>
                 <br />
                 {restaurant.address}
+                {group && (
+                  <>
+                    <br />
+                    <br />
+                    {translations.newRestaurant.group} {group.name}
+                  </>
+                )}
               </Text>
             </Section>
             <Section className="mt-4 text-center">
@@ -77,6 +87,9 @@ NewRestaurant.PreviewProps = {
     restaurant: {
       name: 'Zum goldenen Engel',
       address: 'Am Restaurantweg 1, 95453 Küchenhausen',
+    },
+    group: {
+      name: 'FoodFans',
     },
   },
 } as NewRestaurantProps;

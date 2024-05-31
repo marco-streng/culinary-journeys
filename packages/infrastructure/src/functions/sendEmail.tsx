@@ -25,6 +25,15 @@ type Restaurant = {
   address: {
     S: string;
   };
+  group: {
+    S: string;
+  };
+};
+
+type Group = {
+  name: {
+    S: string;
+  };
 };
 
 type Rating = {
@@ -61,7 +70,24 @@ export const handler = async (event: DynamoDBStreamEvent) => {
 
     switch (kind.split('_')[0]) {
       case 'restaurant': {
-        const { name, address } = image as Restaurant;
+        const { name, address, group } = image as Restaurant;
+
+        const queryCommand = new QueryCommand({
+          TableName: process.env.TABLE_NAME,
+          KeyConditions: {
+            id: {
+              ComparisonOperator: 'EQ',
+              AttributeValueList: [group as AttributeValue],
+            },
+            kind: {
+              ComparisonOperator: 'EQ',
+              AttributeValueList: [{ S: 'group' }],
+            },
+          },
+        });
+
+        const result = await docClient.send(queryCommand);
+        const item = result.Items?.[0] as Group;
 
         const emailData = render(
           <NewRestaurant
@@ -69,6 +95,9 @@ export const handler = async (event: DynamoDBStreamEvent) => {
               restaurant: {
                 name: name.S,
                 address: address.S,
+              },
+              group: {
+                name: item.name.S,
               },
             }}
           />,
