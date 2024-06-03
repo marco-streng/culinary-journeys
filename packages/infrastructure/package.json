@@ -36,7 +36,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
     "@types/aws-cloudfront-function": "^1.0.4",
-    "@types/aws-lambda": "^8.10.136",
+    "@types/aws-lambda": "^8.10.138",
     "@types/mime-types": "^2.1.4",
     "@types/node": "20.12.12",
     "@types/prettier": "3.0.0",
