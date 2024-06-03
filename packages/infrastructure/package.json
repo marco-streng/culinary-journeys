@@ -16,7 +16,7 @@
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
-    "@aws-appsync/utils": "^1.7.0",
+    "@aws-appsync/utils": "^1.8.0",
     "@aws-lambda-powertools/logger": "^2.1.1",
     "@aws-sdk/client-cognito-identity-provider": "3.588.0",
     "@aws-sdk/client-dynamodb": "3.588.0",

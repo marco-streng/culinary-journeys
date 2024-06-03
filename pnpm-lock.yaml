@@ -127,8 +127,8 @@ importers:
   packages/infrastructure:
     dependencies:
       '@aws-appsync/utils':
-        specifier: ^1.7.0
-        version: 1.7.0
+        specifier: ^1.8.0
+        version: 1.8.0
       '@aws-lambda-powertools/logger':
         specifier: ^2.1.1
         version: 2.1.1
@@ -484,8 +484,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-appsync/utils@1.7.0:
-    resolution: {integrity: sha512-f17HeFa1KVZSRYCMdt0hHABf2ZJUQokikaVjx5B8udjHh7B3N0YGKyr9VcyP7c4rofC+qCsUIlQc+T5aHvJ0mg==}
+  /@aws-appsync/utils@1.8.0:
+    resolution: {integrity: sha512-X1WXyLypi37+RybNYFfbmKfaq/dAOLDTolKB51qsD+hmVbkPZAmPG/3Uxf+M76QNvxxYaPuqaP3SdU52xaBi8g==}
     dev: false
 
   /@aws-cdk/asset-awscli-v1@2.2.202:
