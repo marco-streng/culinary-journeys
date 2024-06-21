@@ -12,3 +12,14 @@ export const restrictAdminAccess = (
 
   return true;
 };
+
+export const restrictUserAccess = (
+  sub: string,
+  identity?: AppSyncIdentityCognito | null,
+) => {
+  if (!identity || (identity as AppSyncIdentityCognito).sub !== sub) {
+    throw new Error('Not authorized');
+  }
+
+  return true;
+};

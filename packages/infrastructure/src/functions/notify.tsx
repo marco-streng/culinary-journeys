@@ -6,6 +6,7 @@ import {
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 
 import { SES, SendEmailCommand } from '@aws-sdk/client-ses';
+import { PublishCommand, SNSClient } from '@aws-sdk/client-sns';
 import {
   NewRating,
   NewRestaurant,
@@ -15,6 +16,7 @@ import { render } from '@react-email/render';
 import { DynamoDBStreamEvent } from 'aws-lambda';
 
 const ses = new SES({});
+const snsCient = new SNSClient({});
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
@@ -89,6 +91,12 @@ export const handler = async (event: DynamoDBStreamEvent) => {
         const result = await docClient.send(queryCommand);
         const item = result.Items?.[0] as Group;
 
+        const publishCommand = new PublishCommand({
+          Message: `${translations.de.newRestaurant.subject}: ${name.S} ${address.S}`,
+          TopicArn: process.env.TOPIC_ARN,
+        });
+        await snsCient.send(publishCommand);
+
         const emailData = render(
           <NewRestaurant
             data={{
@@ -102,7 +110,6 @@ export const handler = async (event: DynamoDBStreamEvent) => {
             }}
           />,
         );
-
         return await sendEmail(
           translations.de.newRestaurant.subject,
           emailData,

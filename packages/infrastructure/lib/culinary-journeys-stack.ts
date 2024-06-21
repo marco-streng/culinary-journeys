@@ -9,6 +9,7 @@ import {
   aws_lambda_nodejs,
   aws_s3,
   aws_s3_deployment,
+  aws_sns,
   CfnOutput,
   Duration,
   Fn,
@@ -119,6 +120,13 @@ export class CulinaryJourneysStack extends Stack {
       },
     });
 
+    // ---
+    // SNS
+    // ---
+    const topic = new aws_sns.Topic(this, 'Topic', {
+      topicName: getStage('CulinaryJourneysNotifications'),
+    });
+
     // -----------
     // AppSync API
     // -----------
@@ -227,18 +235,19 @@ export class CulinaryJourneysStack extends Stack {
     // -------
     // Lambdas
     // -------
-    const emailLambda = new aws_lambda_nodejs.NodejsFunction(
+    const notifyLambda = new aws_lambda_nodejs.NodejsFunction(
       this,
-      'emailLambda',
+      'notifyLambda',
       {
         runtime: aws_lambda.Runtime.NODEJS_18_X,
         architecture: aws_lambda.Architecture.ARM_64,
-        entry: path.join(__dirname, '..', 'src', 'functions', 'sendEmail.tsx'),
+        entry: path.join(__dirname, '..', 'src', 'functions', 'notify.tsx'),
         memorySize: 512,
-        timeout: Duration.seconds(30),
+        timeout: Duration.seconds(10),
         environment: {
           EMAIL: EMAIL!,
           TABLE_NAME: table.tableName,
+          TOPIC_ARN: topic.topicArn,
           HOST: `https://${DOMAIN!}`,
         },
         events: [
@@ -248,14 +257,46 @@ export class CulinaryJourneysStack extends Stack {
         ],
       },
     );
-    emailLambda.addToRolePolicy(
+    notifyLambda.addToRolePolicy(
       new aws_iam.PolicyStatement({
         actions: ['ses:SendEmail', 'ses:SendRawEmail'],
         effect: Effect.ALLOW,
         resources: [`arn:aws:ses:${this.region}:*:*`],
       }),
     );
-    table.grantReadData(emailLambda);
+    topic.grantPublish(notifyLambda);
+    table.grantReadData(notifyLambda);
+
+    const createNotificationSubscriptionLambda =
+      new aws_lambda_nodejs.NodejsFunction(
+        this,
+        'createNotificationSubscriptionLambda',
+        {
+          runtime: aws_lambda.Runtime.NODEJS_18_X,
+          architecture: aws_lambda.Architecture.ARM_64,
+          entry: path.join(
+            __dirname,
+            '..',
+            'src',
+            'functions',
+            'createNotificationSubscription.ts',
+          ),
+          memorySize: 256,
+          timeout: Duration.seconds(10),
+          environment: {
+            TOPIC_ARN: topic.topicArn,
+            TABLE_NAME: table.tableName,
+          },
+        },
+      );
+    table.grantReadWriteData(createNotificationSubscriptionLambda);
+    createNotificationSubscriptionLambda.addToRolePolicy(
+      new aws_iam.PolicyStatement({
+        actions: ['sns:Subscribe'],
+        effect: Effect.ALLOW,
+        resources: [topic.topicArn],
+      }),
+    );
 
     const createUploadUrlsLambda = new aws_lambda_nodejs.NodejsFunction(
       this,
@@ -271,7 +312,7 @@ export class CulinaryJourneysStack extends Stack {
           'createUploadUrls.ts',
         ),
         memorySize: 128,
-        timeout: Duration.seconds(30),
+        timeout: Duration.seconds(10),
         environment: {
           BUCKET_NAME: uploadsBucket.bucketName,
         },
@@ -293,7 +334,7 @@ export class CulinaryJourneysStack extends Stack {
           'createImages.ts',
         ),
         memorySize: 128,
-        timeout: Duration.seconds(30),
+        timeout: Duration.seconds(10),
         environment: {
           TABLE_NAME: table.tableName,
         },
@@ -325,7 +366,7 @@ export class CulinaryJourneysStack extends Stack {
         architecture: aws_lambda.Architecture.ARM_64,
         entry: path.join(__dirname, '..', 'src', 'functions', 'createUser.ts'),
         memorySize: 128,
-        timeout: Duration.seconds(30),
+        timeout: Duration.seconds(10),
         environment: {
           USER_POOL_ID: userPool.userPoolId,
           TABLE_NAME: table.tableName,
@@ -344,7 +385,7 @@ export class CulinaryJourneysStack extends Stack {
         architecture: aws_lambda.Architecture.ARM_64,
         entry: path.join(__dirname, '..', 'src', 'functions', 'updateUser.ts'),
         memorySize: 128,
-        timeout: Duration.seconds(30),
+        timeout: Duration.seconds(10),
         environment: {
           USER_POOL_ID: userPool.userPoolId,
           TABLE_NAME: table.tableName,
@@ -498,6 +539,19 @@ export class CulinaryJourneysStack extends Stack {
       {
         typeName: 'Mutation',
         fieldName: 'createUploadUrls',
+      },
+    );
+
+    // createNotificationSubscriptions
+    const createNotificationSubscriptionDataSource = api.addLambdaDataSource(
+      'createNotificationSubscriptionDataSource',
+      createNotificationSubscriptionLambda,
+    );
+    createNotificationSubscriptionDataSource.createResolver(
+      'createNotificationSubscriptionResolver',
+      {
+        typeName: 'Mutation',
+        fieldName: 'createNotificationSubscription',
       },
     );
 

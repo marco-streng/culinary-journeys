@@ -93,6 +93,7 @@ export type Mutation = {
   createDate: Scalars['AWSDate']['output'];
   createGroup: Group;
   createImages: Array<Maybe<Scalars['String']['output']>>;
+  createNotificationSubscription?: Maybe<NotificationSubscription>;
   createRating: Rating;
   createRestaurant: Restaurant;
   createUploadUrls: Array<UploadUrl>;
@@ -112,6 +113,10 @@ export type MutationCreateGroupArgs = {
 
 export type MutationCreateImagesArgs = {
   input: CreateImagesInput;
+};
+
+export type MutationCreateNotificationSubscriptionArgs = {
+  input: CreateNotificationSubscriptionInput;
 };
 
 export type MutationCreateRatingArgs = {
@@ -140,6 +145,13 @@ export type MutationUpdateRestaurantArgs = {
 
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
+};
+
+export type NotificationSubscription = {
+  __typename?: 'NotificationSubscription';
+  id: Scalars['ID']['output'];
+  phoneNumber: Scalars['String']['output'];
+  userId: Scalars['ID']['output'];
 };
 
 export type Position = {
@@ -230,6 +242,11 @@ export type User = {
   groups?: Maybe<Array<Group>>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+};
+
+export type CreateNotificationSubscriptionInput = {
+  phoneNumber: Scalars['String']['input'];
+  userId: Scalars['ID']['input'];
 };
 
 export type CreateUploadUrlsMutationVariables = Exact<{

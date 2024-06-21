@@ -45,6 +45,12 @@ type UploadUrl {
   url: String!
 }
 
+type NotificationSubscription {
+  id: ID!
+  userId: ID!
+  phoneNumber: String!
+}
+
 input PositionInput {
   lat: Float!
   lng: Float!
@@ -106,6 +112,11 @@ input UpdateUserInput {
   addGroupIds: [ID!]
 }
 
+input createNotificationSubscriptionInput {
+  userId: ID!
+  phoneNumber: String!
+}
+
 type Mutation {
   createDate(input: CreateDateInput!): AWSDate!
   createImages(input: CreateImagesInput!): [String]!
@@ -117,6 +128,9 @@ type Mutation {
   updateUser(input: UpdateUserInput!): User!
   deleteRestaurant(input: ID!): Restaurant!
   updateRestaurant(input: UpdateRestaurantInput!): Restaurant!
+  createNotificationSubscription(
+    input: createNotificationSubscriptionInput!
+  ): NotificationSubscription
 }
 
 type Query {

@@ -52,7 +52,7 @@ export type CreateRestaurantInput = {
   address?: InputMaybe<Scalars['String']['input']>;
   googlePlaceId: Scalars['String']['input'];
   /** @deprecated Use googlePlaceId field */
-  google_place_id: Scalars['String']['input'];
+  google_place_id?: InputMaybe<Scalars['String']['input']>;
   group: Scalars['String']['input'];
   name: Scalars['String']['input'];
   position?: InputMaybe<PositionInput>;
@@ -86,6 +86,7 @@ export type Mutation = {
   createDate: Scalars['AWSDate']['output'];
   createGroup: Group;
   createImages: Array<Maybe<Scalars['String']['output']>>;
+  createNotificationSubscription?: Maybe<NotificationSubscription>;
   createRating: Rating;
   createRestaurant: Restaurant;
   createUploadUrls: Array<UploadUrl>;
@@ -105,6 +106,10 @@ export type MutationCreateGroupArgs = {
 
 export type MutationCreateImagesArgs = {
   input: CreateImagesInput;
+};
+
+export type MutationCreateNotificationSubscriptionArgs = {
+  input: CreateNotificationSubscriptionInput;
 };
 
 export type MutationCreateRatingArgs = {
@@ -133,6 +138,13 @@ export type MutationUpdateRestaurantArgs = {
 
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
+};
+
+export type NotificationSubscription = {
+  __typename?: 'NotificationSubscription';
+  id: Scalars['ID']['output'];
+  phoneNumber: Scalars['String']['output'];
+  userId: Scalars['ID']['output'];
 };
 
 export type Position = {
@@ -185,7 +197,7 @@ export type Restaurant = {
   createdBy?: Maybe<User>;
   googlePlaceId: Scalars['String']['output'];
   /** @deprecated Use googlePlaceId field */
-  google_place_id: Scalars['String']['output'];
+  google_place_id?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   images?: Maybe<Array<Scalars['String']['output']>>;
   name: Scalars['String']['output'];
@@ -223,4 +235,9 @@ export type User = {
   groups?: Maybe<Array<Group>>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+};
+
+export type CreateNotificationSubscriptionInput = {
+  phoneNumber: Scalars['String']['input'];
+  userId: Scalars['ID']['input'];
 };
