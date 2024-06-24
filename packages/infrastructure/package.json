@@ -31,7 +31,7 @@
     "constructs": "^10.3.0",
     "mime-types": "^2.1.35",
     "sharp": "^0.33.4",
-    "uuid": "^9.0.1"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
