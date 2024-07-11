@@ -209,8 +209,8 @@ importers:
         specifier: ^2.145.0
         version: 2.145.0
       aws-sdk-client-mock:
-        specifier: ^4.0.0
-        version: 4.0.0
+        specifier: ^4.0.1
+        version: 4.0.1
       aws-sdk-client-mock-vitest:
         specifier: ^2.1.3
         version: 2.1.3
@@ -3866,8 +3866,8 @@ packages:
   aws-sdk-client-mock-vitest@2.1.3:
     resolution: {integrity: sha512-oypyAtHHrKo3dT0P4nh1b7YltgJoajyyTvbq7BzgkXTdMYPRn8HmhH3SMggEcItTdgWiT70vr5VlpwGVEyeZ5A==}
 
-  aws-sdk-client-mock@4.0.0:
-    resolution: {integrity: sha512-/rxo+pzCFaUozK7TyCqo3GYwzdBGn9Ai6EsT8ytXDoUXlD/Q5hw9hj2lOkCAyubECzGJFHMmQg9GZ1GOGlN/qQ==}
+  aws-sdk-client-mock@4.0.1:
+    resolution: {integrity: sha512-yD2mmgy73Xce097G5hIpr1k7j50qzvJ49/+6osGZiCyk4m6cwhb+2x7kKFY1gEMwTzaS8+m8fXv9SB29SkRYyQ==}
 
   aws-sdk@2.1333.0:
     resolution: {integrity: sha512-MvOuleNeRryJtkCGXGEWDHPqqgxuqdi4/hGzJEpn9tnjsW9LNK8UgFPpYzUZ24ZO/3S+jiUh8DMMrL5nVGnagg==}
@@ -12427,11 +12427,11 @@ snapshots:
       '@vitest/expect': 1.6.0
       tslib: 2.6.2
 
-  aws-sdk-client-mock@4.0.0:
+  aws-sdk-client-mock@4.0.1:
     dependencies:
       '@types/sinon': 10.0.20
       sinon: 16.1.3
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   aws-sdk@2.1333.0:
     dependencies:
