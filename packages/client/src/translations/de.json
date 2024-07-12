@@ -35,5 +35,6 @@
   "addRestaurant": "Restaurant hinzufügen",
   "uploadHint": "Drag 'n' drop der Dateien hier oder klicken",
   "setNewPassword": "Bitte vergib ein eigenes neues Passwort.",
-  "invalidPassword": "Dein Passwort erfüllt leider die Passwortrichtlinien nicht. Bitte gib ein neues Passwort ein."
+  "invalidPassword": "Dein Passwort erfüllt leider die Passwortrichtlinien nicht. Bitte gib ein neues Passwort ein.",
+  "missingRateValue": "Bitte gib eine Bewertung in Sternen an."
 }

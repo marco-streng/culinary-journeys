@@ -1,6 +1,7 @@
 export * from './AddRestaurant';
 export * from './Button';
 export * from './Details';
+export * from './Error';
 export * from './Filter';
 export * from './Input';
 export * from './Label';
