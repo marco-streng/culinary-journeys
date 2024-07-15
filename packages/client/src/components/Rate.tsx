@@ -1,10 +1,18 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { ErrorMessage } from '@hookform/error-message';
+import { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { AiFillStar } from 'react-icons/ai';
 import { Scalars } from '../types/gql';
 import { Button, ButtonVariant } from './Button';
+import { Error } from './Error';
 import { Label } from './Label';
 import { Textarea } from './Textarea';
+
+type FormData = {
+  value: number;
+  comment?: string;
+};
 
 export const Rate = ({
   restaurant,
@@ -22,28 +30,25 @@ export const Rate = ({
   onClose: () => void;
 }) => {
   const { t } = useTranslation();
-  const [value, setValue] = useState<number | undefined>();
-  const inputCommentRef = useRef<HTMLTextAreaElement>(null);
+
+  const {
+    control,
+    register,
+    setFocus,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
 
   useEffect(() => {
-    inputCommentRef.current?.focus();
-  }, []);
+    setFocus('comment');
+  }, [setFocus]);
 
-  const handleSignIn = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!value) return;
-
-    const comment = inputCommentRef.current?.value;
-
-    onSubmit(restaurant.id, {
-      value,
-      comment,
-    });
+  const submit = (data: FormData) => {
+    onSubmit(restaurant.id, data);
   };
 
   return (
-    <form onSubmit={handleSignIn}>
+    <form onSubmit={handleSubmit(submit)}>
       <div className="p-5">
         <h2 className="mb-8 text-xl font-bold">
           {restaurant.name}
@@ -56,15 +61,31 @@ export const Rate = ({
             <Label>{t('stars')}</Label>
           </div>
           <div className="basis-3/4">
-            {Array.from({ length: 5 }).map((_, nr) => (
-              <AiFillStar
-                size={55}
-                className={`ci-rating_star ${
-                  (value ?? 0) >= nr + 1 && 'ci-rating_star--active'
-                }`}
-                onClick={() => setValue(nr + 1)}
-              />
-            ))}
+            <Controller
+              name="value"
+              control={control}
+              rules={{
+                required: t('missingRateValue'),
+              }}
+              render={({ field }) => (
+                <>
+                  {Array.from({ length: 5 }).map((_, nr) => (
+                    <AiFillStar
+                      size={55}
+                      className={`ci-rating_star ${
+                        (field.value ?? 0) >= nr + 1 && 'ci-rating_star--active'
+                      }`}
+                      onClick={() => field.onChange(nr + 1)}
+                    />
+                  ))}
+                  <ErrorMessage
+                    errors={errors}
+                    name="value"
+                    render={({ message }) => <Error message={message} />}
+                  />
+                </>
+              )}
+            />
           </div>
         </div>
 
@@ -73,11 +94,7 @@ export const Rate = ({
             <Label htmlFor="comment">{t('comment')}</Label>
           </div>
           <div className="basis-3/4">
-            <Textarea
-              ref={inputCommentRef}
-              id="comment"
-              name="comment"
-            ></Textarea>
+            <Textarea {...register('comment')} />
           </div>
         </div>
       </div>
