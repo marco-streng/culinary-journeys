@@ -1,5 +1,8 @@
 import { useRef } from 'react';
 
+const isImageZoomOpen = () =>
+  document.querySelectorAll('[data-rmiz-portal] > dialog[open]').length > 0;
+
 export const Modal = ({
   children,
   onClose,
@@ -10,7 +13,10 @@ export const Modal = ({
   const innerRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!innerRef.current?.contains(event.target as Element)) {
+    if (
+      !innerRef.current?.contains(event.target as Element) &&
+      !isImageZoomOpen()
+    ) {
       onClose();
     }
   };
