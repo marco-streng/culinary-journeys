@@ -15,6 +15,7 @@ type Group {
 
 type Restaurant {
   id: ID!
+  group: ID!
   google_place_id: String @deprecated(reason: "Use googlePlaceId field")
   googlePlaceId: String!
   name: String!
@@ -122,6 +123,7 @@ type Mutation {
 type Query {
   dates(from: AWSDate!): [AWSDate!]!
   groups(ids: [ID!]!): [Group!]!
+  restaurant(id: ID!): Restaurant!
   restaurants(group: String!): [Restaurant!]!
   user(id: ID!): User!
 }

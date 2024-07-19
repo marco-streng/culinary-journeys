@@ -52,7 +52,7 @@ export type CreateRestaurantInput = {
   address?: InputMaybe<Scalars['String']['input']>;
   googlePlaceId: Scalars['String']['input'];
   /** @deprecated Use googlePlaceId field */
-  google_place_id: Scalars['String']['input'];
+  google_place_id?: InputMaybe<Scalars['String']['input']>;
   group: Scalars['String']['input'];
   name: Scalars['String']['input'];
   position?: InputMaybe<PositionInput>;
@@ -150,6 +150,7 @@ export type Query = {
   __typename?: 'Query';
   dates: Array<Scalars['AWSDate']['output']>;
   groups: Array<Group>;
+  restaurant: Restaurant;
   restaurants: Array<Restaurant>;
   user: User;
 };
@@ -160,6 +161,10 @@ export type QueryDatesArgs = {
 
 export type QueryGroupsArgs = {
   ids: Array<Scalars['ID']['input']>;
+};
+
+export type QueryRestaurantArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type QueryRestaurantsArgs = {
@@ -185,7 +190,8 @@ export type Restaurant = {
   createdBy?: Maybe<User>;
   googlePlaceId: Scalars['String']['output'];
   /** @deprecated Use googlePlaceId field */
-  google_place_id: Scalars['String']['output'];
+  google_place_id?: Maybe<Scalars['String']['output']>;
+  group: Scalars['ID']['output'];
   id: Scalars['ID']['output'];
   images?: Maybe<Array<Scalars['String']['output']>>;
   name: Scalars['String']['output'];

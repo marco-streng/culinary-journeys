@@ -21,6 +21,7 @@ interface NewRatingProps {
       name: string;
     };
     restaurant: {
+      id: string;
       name: string;
     };
   };
@@ -63,7 +64,7 @@ const NewRating = (props: NewRatingProps) => {
             <Section className="mt-4 text-center">
               <Button
                 className="rounded-sm bg-sky-600 px-5 py-3 text-center text-sm text-white no-underline"
-                href={process.env.HOST}
+                href={`${process.env.HOST}/restaurant/${restaurant.id}`}
               >
                 {translations.newRating.open}
               </Button>
@@ -85,6 +86,7 @@ NewRating.PreviewProps = {
       name: 'Max Mustermann',
     },
     restaurant: {
+      id: '68e3f91f-36fc-4465-b728-3756f2c6ff69',
       name: 'Zum goldenen Engel',
       address: 'Am Restaurantweg 1, 95453 Küchenhausen',
     },

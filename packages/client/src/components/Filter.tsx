@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Button, ButtonVariant } from './Button';
+import { CloseRoutedModalButton } from './CloseRoutedModalButton';
 
 export type Filter = 'all' | 'planned' | 'done';
 
@@ -51,13 +51,7 @@ export const Filter = ({
       <div className="bg-gray-50 px-4 py-3">
         <div className="flex flex-row">
           <div className="grow">
-            <Button
-              className="mr-2"
-              variant={ButtonVariant.Secondary}
-              onClick={onClose}
-            >
-              {t('close')}
-            </Button>
+            <CloseRoutedModalButton />
           </div>
         </div>
       </div>

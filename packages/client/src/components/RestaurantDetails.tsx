@@ -12,9 +12,11 @@ import {
 } from 'react-icons/bs';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
-import { uploader, type UploadProgress } from '../lib';
+import { useLocalStorage } from 'usehooks-ts';
+import { getActiveGroupForUser, uploader, type UploadProgress } from '../lib';
+import { useUserStore } from '../state/user';
 import {
-  RestaurantsQuery,
+  RestaurantQuery,
   useCreateImagesMutation,
   useRestaurantsQuery,
 } from '../types/gql';
@@ -24,20 +26,26 @@ dayjs.locale(de);
 
 export const RestaurantDetails = ({
   restaurant,
-  user,
   variant = 'default',
 }: ReactHTMLElement<HTMLDivElement>['props'] & {
-  restaurant: RestaurantsQuery['restaurants'][0];
+  restaurant: RestaurantQuery['restaurant'];
   variant?: 'default' | 'small';
-  user: {
-    id: string;
-    group: string;
-    groups: string[];
-  };
 }) => {
   const { t } = useTranslation();
   const [isUploading, setIsUploading] = useState(false);
   const [progress, setProgress] = useState<UploadProgress | undefined>();
+  const [activeGroupStore] = useLocalStorage<
+    Record<string, string> | undefined
+  >('activeGroup', undefined);
+
+  const { groups, authorized } = useUserStore(({ groups, authorized }) => ({
+    groups,
+    authorized,
+  }));
+  const activeGroup = getActiveGroupForUser({
+    authorized,
+    activeGroupStore,
+  });
   const queryClient = useQueryClient();
 
   const { mutateAsync: createImages } = useCreateImagesMutation();
@@ -58,8 +66,8 @@ export const RestaurantDetails = ({
 
     queryClient.invalidateQueries(
       useRestaurantsQuery.getKey({
-        group: user.group,
-        groups: user.groups,
+        group: activeGroup,
+        groups: groups,
         from: dayjs().format('YYYY-MM-DD'),
       }),
     );
@@ -67,22 +75,12 @@ export const RestaurantDetails = ({
     setIsUploading(false);
   };
 
-  const data = queryClient
-    .getQueryData<RestaurantsQuery>(
-      useRestaurantsQuery.getKey({
-        group: user.group,
-        groups: user.groups,
-        from: dayjs().format('YYYY-MM-DD'),
-      }),
-    )
-    ?.restaurants.find((r) => r.id === restaurant.id);
-
-  if (!data) return null;
-
   const rating =
-    data.ratings.length > 0
-      ? data.ratings.reduce((prev, curr) => prev + (curr?.value || 0), 0) /
-        data.ratings.length
+    restaurant.ratings.length > 0
+      ? restaurant.ratings.reduce(
+          (prev, curr) => prev + (curr?.value || 0),
+          0,
+        ) / restaurant.ratings.length
       : 0;
 
   return (
@@ -92,24 +90,26 @@ export const RestaurantDetails = ({
       <div className="flex flex-row">
         <div className="grow">
           <h2 className="flex items-center text-2xl font-bold md:text-4xl">
-            {data.name}
+            {restaurant.name}
           </h2>
-          {data.address && <h3 className="text-md">{data.address}</h3>}
-          {data.createdBy && (
+          {restaurant.address && (
+            <h3 className="text-md">{restaurant.address}</h3>
+          )}
+          {restaurant.createdBy && (
             <div className="mt-2">
               <BsFillPencilFill
                 size={16}
                 className="mr-1 inline-block fill-gray-300"
               />
-              {data.createdBy.name}
+              {restaurant.createdBy.name}
             </div>
           )}
         </div>
         <div>
-          {data.website && (
+          {restaurant.website && (
             <a
               className="cursor-pointer text-gray-400"
-              href={data.website}
+              href={restaurant.website}
               target="_blank"
             >
               <BsBoxArrowUpRight size={24} />
@@ -120,11 +120,11 @@ export const RestaurantDetails = ({
 
       <div className="mb-6" />
 
-      {(data.visits?.length ?? 0) > 0 && (
+      {(restaurant.visits?.length ?? 0) > 0 && (
         <div className="mb-10">
           <Subline>{t('visits')}</Subline>
           <ul>
-            {data.visits?.map((date: string) => (
+            {restaurant.visits?.map((date: string) => (
               <li key={date} className="block">
                 {dayjs(date).format('dddd - DD.MM.YYYY')}
               </li>
@@ -135,10 +135,10 @@ export const RestaurantDetails = ({
 
       <div className="mb-10">
         <Subline>{t('rate')}</Subline>
-        {data.ratings.length > 0 ? (
+        {restaurant.ratings.length > 0 ? (
           <div className="flex">
             <div className="grow">
-              {data.ratings.map((rating) => (
+              {restaurant.ratings.map((rating) => (
                 <div key={rating.userId} className="mb-6">
                   <div className="mb-1">
                     <BsFillPersonFill
@@ -181,9 +181,9 @@ export const RestaurantDetails = ({
 
       <div>
         <Subline>{t('photos')}</Subline>
-        {(data.images?.length ?? 0) > 0 && (
+        {(restaurant.images?.length ?? 0) > 0 && (
           <ul className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
-            {data.images?.map((image) => (
+            {restaurant.images?.map((image) => (
               <li
                 key={image}
                 className="cursor-pointer border border-solid border-gray-100"

@@ -386,6 +386,17 @@ export class CulinaryJourneysStack extends Stack {
       fieldName: 'restaurants',
     });
 
+    // restaurant
+    new AppSyncJavaScriptResolver(this, 'restaurant', {
+      api,
+      code: appsync.Code.fromAsset(
+        './src/mapping-templates/dist/restaurant.js',
+      ),
+      dataSource: tableDataSource,
+      typeName: 'Query',
+      fieldName: 'restaurant',
+    });
+
     // Restaurants.createdBy
     new AppSyncJavaScriptResolver(this, 'restaurant_createdyBy', {
       api,

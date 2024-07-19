@@ -18,9 +18,9 @@ export const groupsQuery = gql`
   }
 `;
 
-export const restaurantsQuery = gql`
-  query restaurants($from: AWSDate!, $group: String!, $groups: [ID!]!) {
-    restaurants(group: $group) {
+export const restaurantQuery = gql`
+  query restaurant($id: ID!) {
+    restaurant(id: $id) {
       visits
       googlePlaceId
       id
@@ -42,6 +42,24 @@ export const restaurantsQuery = gql`
         name
       }
     }
+  }
+`;
+
+export const restaurantsQuery = gql`
+  query restaurants($from: AWSDate!, $group: String!, $groups: [ID!]!) {
+    restaurants(group: $group) {
+      visits
+      id
+      name
+      address
+      position {
+        lat
+        lng
+      }
+      ratings {
+        value
+      }
+    }
     dates(from: $from)
     groups(ids: $groups) {
       id
@@ -54,19 +72,15 @@ export const createRestaurantMutation = gql`
   mutation createRestaurant($input: CreateRestaurantInput!) {
     createRestaurant(input: $input) {
       visits
-      googlePlaceId
       id
       name
       address
-      website
       position {
         lat
         lng
       }
       ratings {
         value
-        userId
-        userName
       }
     }
   }

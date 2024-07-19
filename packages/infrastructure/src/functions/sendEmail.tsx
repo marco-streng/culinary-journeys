@@ -19,6 +19,9 @@ const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
 type Restaurant = {
+  id: {
+    S: string;
+  };
   name: {
     S: string;
   };
@@ -70,7 +73,7 @@ export const handler = async (event: DynamoDBStreamEvent) => {
 
     switch (kind.split('_')[0]) {
       case 'restaurant': {
-        const { name, address, group } = image as Restaurant;
+        const { name, address, group, id } = image as Restaurant;
 
         const queryCommand = new QueryCommand({
           TableName: process.env.TABLE_NAME,
@@ -93,6 +96,7 @@ export const handler = async (event: DynamoDBStreamEvent) => {
           <NewRestaurant
             data={{
               restaurant: {
+                id: id.S,
                 name: name.S,
                 address: address.S,
               },
@@ -132,6 +136,7 @@ export const handler = async (event: DynamoDBStreamEvent) => {
           <NewRating
             data={{
               restaurant: {
+                id: item.id.S,
                 name: item.name.S,
               },
               rating: parseInt(value.N),

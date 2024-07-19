@@ -1,39 +1,98 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
+import dayjs from 'dayjs';
 import debounce from 'lodash/debounce';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
+import { toast } from 'react-toastify';
+import { useLocalStorage } from 'usehooks-ts';
 import { DEFAULT_CENTER } from '../config';
-import { Scalars } from '../types/gql';
-import { Button, ButtonVariant } from './Button';
+import { getActiveGroupForUser } from '../lib';
+import { useUserStore } from '../state/user';
+import { useCreateRestaurantMutation, useRestaurantsQuery } from '../types/gql';
+import { CloseRoutedModalButton } from './CloseRoutedModalButton';
 import { Input } from './Input';
 import { Loader } from './Loader';
 
-export const AddRestaurant = ({
-  restaurants,
-  onSubmit,
-  onClose,
-}: {
-  restaurants: {
-    id: Scalars['ID']['input'];
-    googlePlaceId: string;
-  }[];
-  onSubmit: (place: google.maps.places.PlaceResult) => Promise<unknown>;
-  onClose: () => void;
-}) => {
+export const AddRestaurant = () => {
   const { t } = useTranslation();
   const [searchResult, setSearchResult] = useState<
     google.maps.places.PlaceResult[] | null
   >([]);
+  const navigate = useNavigate();
   const [isSearching, setIsSearching] = useState(false);
+  const [activeGroupStore] = useLocalStorage<
+    Record<string, string> | undefined
+  >('activeGroup', undefined);
+
+  const { groups, authorized } = useUserStore(({ groups, authorized }) => ({
+    groups,
+    authorized,
+  }));
+  const activeGroup = getActiveGroupForUser({
+    authorized,
+    activeGroupStore,
+  });
 
   const map = useMap();
   const places = useMapsLibrary('places');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+  const today = dayjs().format('YYYY-MM-DD');
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: createRestaurant, isLoading: isCreating } =
+    useCreateRestaurantMutation();
+  const { isLoading: isLoadingRestaurants, data: restaurants } =
+    useRestaurantsQuery(
+      {
+        from: today,
+        group: activeGroup,
+        groups: groups,
+      },
+      { select: (data) => data.restaurants },
+    );
+
+  const handleSubmit = (
+    place: google.maps.places.PlaceResult & { website?: string },
+  ) => {
+    createRestaurant(
+      {
+        input: {
+          group: activeGroup,
+          name: place.name || 'n/a',
+          googlePlaceId: place.place_id || '',
+          address: place.formatted_address,
+          website: place.website,
+          position: {
+            lat: place.geometry?.location?.lat() || 0,
+            lng: place.geometry?.location?.lng() || 0,
+          },
+        },
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(
+            useRestaurantsQuery.getKey({
+              group: activeGroup,
+              groups: groups || [],
+              from: today,
+            }),
+          );
+
+          toast.success(t('restaurantAdded'), {
+            icon: () => '✅',
+            position: 'bottom-right',
+            autoClose: 2500,
+          });
+
+          navigate({ to: '/' });
+        },
+      },
+    );
+  };
 
   const handleSearch = (searchString: string) => {
     if (!map || !places || !inputRef.current) return;
@@ -53,6 +112,10 @@ export const AddRestaurant = ({
     );
   };
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   const debouncedHandleSearch = debounce(handleSearch, 500);
 
   return (
@@ -70,7 +133,7 @@ export const AddRestaurant = ({
           className="overflow-y-auto"
           style={{ height: 'calc(100vh - 220px)' }}
         >
-          {isSearching ? (
+          {isSearching || isLoadingRestaurants || isCreating ? (
             <Loader full={false} />
           ) : (
             <ul className="list-none overflow-auto pt-2">
@@ -78,7 +141,7 @@ export const AddRestaurant = ({
                 <li className="py-2" key={place.place_id}>
                   {place.place_id &&
                   restaurants
-                    .map((item) => item.googlePlaceId)
+                    ?.map((item) => item.googlePlaceId)
                     .includes(place.place_id) ? (
                     <span className="text-gray-300" title="Bereits besucht!">
                       <span className="font-bold">{place.name}</span>
@@ -89,7 +152,7 @@ export const AddRestaurant = ({
                     <a
                       className="cursor-pointer hover:text-sky-600"
                       onClick={() => {
-                        onSubmit(place);
+                        handleSubmit(place);
                       }}
                     >
                       <div className="flex items-center">
@@ -116,13 +179,7 @@ export const AddRestaurant = ({
       </div>
 
       <div className="bg-gray-50 px-4 py-3">
-        <Button
-          className="mr-2"
-          variant={ButtonVariant.Secondary}
-          onClick={onClose}
-        >
-          {t('close')}
-        </Button>
+        <CloseRoutedModalButton />
       </div>
     </>
   );
