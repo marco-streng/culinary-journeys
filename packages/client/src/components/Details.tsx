@@ -1,36 +1,39 @@
+import { useMatch } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { RestaurantsQuery } from '../types/gql';
-import { Button, ButtonVariant } from './Button';
+import { useRestaurantQuery } from '../types/gql';
+import { CloseRoutedModalButton } from './CloseRoutedModalButton';
+import { Loader } from './Loader';
 import { RestaurantDetails } from './RestaurantDetails';
 
-export const Details = ({
-  restaurant,
-  user,
-  onClose,
-}: {
-  restaurant: RestaurantsQuery['restaurants'][0];
-  user: {
-    id: string;
-    group: string;
-    groups: string[];
-  };
-  onClose: () => void;
-}) => {
+export const Details = () => {
+  const id = useMatch({
+    from: '/restaurant/$id/',
+    select: (match) => match.params.id,
+  });
+
   const { t } = useTranslation();
+  const { isLoading, data: restaurant } = useRestaurantQuery(
+    {
+      id,
+    },
+    {
+      select: (data) => data.restaurant,
+    },
+  );
 
   return (
     <>
       <div className="p-5">
-        <RestaurantDetails restaurant={restaurant} user={user} />
+        {isLoading ? (
+          <Loader full={false} />
+        ) : restaurant ? (
+          <RestaurantDetails restaurant={restaurant} />
+        ) : (
+          <>{t('notFound')}</>
+        )}
       </div>
       <div className="bg-gray-50 px-4 py-3">
-        <Button
-          className="mr-2"
-          variant={ButtonVariant.Secondary}
-          onClick={onClose}
-        >
-          {t('close')}
-        </Button>
+        <CloseRoutedModalButton />
       </div>
     </>
   );

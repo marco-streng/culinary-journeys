@@ -2,7 +2,7 @@ import { ReactHTMLElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsCheckCircleFill, BsCircle } from 'react-icons/bs';
 import { RestaurantsQuery } from '../types/gql';
-import { Button, ButtonSize, ButtonVariant } from './Button';
+import { LinkButton, LinkButtonSize, LinkButtonVariant } from './LinkButton';
 import { Rating } from './Rating';
 
 type Restaurant = RestaurantsQuery['restaurants'][0];
@@ -10,10 +10,7 @@ type Restaurant = RestaurantsQuery['restaurants'][0];
 export const RestaurantCard = ({
   restaurant,
   user,
-  onVisit,
-  onRate,
   onSelect,
-  onDetails,
   ...props
 }: ReactHTMLElement<HTMLDivElement>['props'] & {
   restaurant: Restaurant;
@@ -21,9 +18,6 @@ export const RestaurantCard = ({
     id: string;
   };
   onSelect: (restaurant: Restaurant) => void;
-  onVisit: (restaurant: Restaurant) => void;
-  onRate: (restaurant: Restaurant) => void;
-  onDetails: (restaurant: Restaurant) => void;
 }) => {
   const { t } = useTranslation();
   const visited = (restaurant.visits?.length ?? 0) > 0;
@@ -70,31 +64,44 @@ export const RestaurantCard = ({
       </div>
       <div className="mt-1 flex p-3">
         <div className="flex-grow">
-          <a onClick={() => onVisit(restaurant)} title={t('visit')}>
-            <Button size={ButtonSize.Small} variant={ButtonVariant.Secondary}>
-              {t('visit')}
-            </Button>
-          </a>
+          <LinkButton
+            size={LinkButtonSize.Small}
+            variant={LinkButtonVariant.Secondary}
+            to={'/restaurant/$id/add-visit'}
+            params={{ id: restaurant.id }}
+          >
+            {t('visit')}
+          </LinkButton>
           {visited &&
-            !restaurant.ratings
+            restaurant.ratings
               ?.map((rating) => rating?.userId)
               .includes(user.id) && (
-              <a onClick={() => onRate(restaurant)} title={t('rate')}>
-                <Button
-                  size={ButtonSize.Small}
-                  variant={ButtonVariant.Secondary}
-                  className="ml-2"
-                >
-                  {t('rate')}
-                </Button>
-              </a>
+              <LinkButton
+                to={`/restaurant/$id/rate`}
+                params={{
+                  id: restaurant.id,
+                }}
+                size={LinkButtonSize.Small}
+                variant={LinkButtonVariant.Secondary}
+                className="ml-2"
+              >
+                {' '}
+                {t('rate')}
+              </LinkButton>
             )}
         </div>
-        <a onClick={() => onDetails(restaurant)} title={t('details')}>
-          <Button size={ButtonSize.Small} className="ml-2">
+        {restaurant && (
+          <LinkButton
+            to={`/restaurant/$id`}
+            params={{
+              id: restaurant.id,
+            }}
+            size={LinkButtonSize.Small}
+            className="ml-2"
+          >
             {t('details')}
-          </Button>
-        </a>
+          </LinkButton>
+        )}
       </div>
     </div>
   );

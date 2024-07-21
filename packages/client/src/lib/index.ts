@@ -1,4 +1,4 @@
-import { fetchAuthSession } from 'aws-amplify/auth';
+import { AuthUser, fetchAuthSession } from 'aws-amplify/auth';
 import axios from 'axios';
 import { GraphQLClient } from 'graphql-request';
 import { createUploadUrlsMutation } from '../gql';
@@ -111,4 +111,17 @@ export const uploader = async (
   await Promise.all(uploads);
 
   return links.map((link) => link.fileName);
+};
+
+export const getActiveGroupForUser = ({
+  authorized,
+  activeGroupStore,
+}: {
+  authorized?: AuthUser;
+  activeGroupStore?: Record<string, string>;
+}) => {
+  const { userId } = authorized ?? {};
+  if (!userId) return '';
+
+  return activeGroupStore?.[userId] ?? '';
 };

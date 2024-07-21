@@ -33,8 +33,12 @@
   "visited": "Besucht",
   "planned": "Geplant",
   "addRestaurant": "Restaurant hinzufügen",
+  "restaurantAdded": "Restaurant wurde hinzugefügt.",
+  "restaurantRated": "Restaurant wurde bewertet.",
+  "restaurantVisited": "Restaurantbesucht wurde hinzugefügt.",
   "uploadHint": "Drag 'n' drop der Dateien hier oder klicken",
   "setNewPassword": "Bitte vergib ein eigenes neues Passwort.",
   "invalidPassword": "Dein Passwort erfüllt leider die Passwortrichtlinien nicht. Bitte gib ein neues Passwort ein.",
-  "missingRateValue": "Bitte gib eine Bewertung in Sternen an."
+  "missingRateValue": "Bitte gib eine Bewertung in Sternen an.",
+  "notFound": "Keine Daten verfügbar."
 }

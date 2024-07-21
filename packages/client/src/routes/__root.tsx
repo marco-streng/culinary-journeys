@@ -1,27 +1,33 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { createRootRoute } from '@tanstack/react-router';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { Amplify } from 'aws-amplify';
-import { AuthUser, getCurrentUser } from 'aws-amplify/auth';
+import { getCurrentUser } from 'aws-amplify/auth';
 import { Hub } from 'aws-amplify/utils';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useLocalStorage } from 'usehooks-ts';
-import './App.css';
-import { Loader, Map, SignIn } from './components';
-import { API_KEY } from './config';
-import './config/i18n';
-import { NotificationPayload } from './hooks';
-import { getUserGroups } from './lib';
-import {
-  RestaurantsQuery,
-  useCreateRatingMutation,
-  useCreateRestaurantMutation,
-  useRestaurantsQuery,
-  useUpdateRestaurantMutation,
-} from './types/gql';
+import '../App.css';
+import { Loader, Map, SignIn } from '../components';
+import { API_KEY } from '../config';
+import '../config/i18n';
+import { NotificationPayload } from '../hooks';
+import '../index.css';
+import { getActiveGroupForUser, getUserGroups } from '../lib';
+import { useUserStore } from '../state/user';
+import { RestaurantsQuery, useRestaurantsQuery } from '../types/gql';
+
+const TanStackRouterDevtools =
+  process.env.NODE_ENV === 'production'
+    ? () => null
+    : lazy(() =>
+        import('@tanstack/router-devtools').then((res) => ({
+          default: res.TanStackRouterDevtools,
+        })),
+      );
 
 type Restaurant = RestaurantsQuery['restaurants'][0];
 
@@ -67,18 +73,18 @@ const ToastMessage = ({
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [authorized, setAuthorized] = useState<AuthUser | null>(null);
   const [activeGroupStore, setActiveGroupStore] = useLocalStorage<
     Record<string, string> | undefined
   >('activeGroup', undefined);
-  const [groups, setGroups] = useState<string[] | null>();
 
-  const getActiveGroupForUser = () => {
-    const { userId } = authorized ?? {};
-    if (!userId) return '';
+  const { groups, authorized, setGroups, setAuthorized } = useUserStore(
+    (state) => state,
+  );
 
-    return activeGroupStore?.[userId] ?? '';
-  };
+  const activeGroup = getActiveGroupForUser({
+    authorized,
+    activeGroupStore,
+  });
 
   const isGroupValid = (activeGroup: string, groups: string[]) =>
     groups.includes(activeGroup);
@@ -104,16 +110,13 @@ const App = () => {
     useRestaurantsQuery(
       {
         from: today,
-        group: getActiveGroupForUser(),
+        group: activeGroup,
         groups: groups || [],
       },
-      { enabled: !!authorized && getActiveGroupForUser().length > 0 },
+      { enabled: !!authorized && activeGroup.length > 0 },
     );
 
   const queryClient = useQueryClient({});
-  const { mutateAsync: createRestaurant } = useCreateRestaurantMutation();
-  const { mutateAsync: updateRestaurant } = useUpdateRestaurantMutation();
-  const { mutateAsync: createRating } = useCreateRatingMutation();
 
   const notify = (
     message: NotificationPayload,
@@ -126,7 +129,7 @@ const App = () => {
     const cache = queryClient.getQueryData<RestaurantsQuery>(
       useRestaurantsQuery.getKey({
         from: today,
-        group: getActiveGroupForUser(),
+        group: activeGroup,
         groups: groups || [],
       }),
     );
@@ -164,8 +167,8 @@ const App = () => {
         setAuthorized(user);
         setIsLoading(false);
       } catch (error) {
-        setAuthorized(null);
-        setGroups(null);
+        setAuthorized(undefined);
+        setGroups([]);
         setIsLoading(false);
       }
     };
@@ -174,7 +177,7 @@ const App = () => {
 
     const cancelToken = Hub.listen('auth', (info) => {
       if (info.payload.event === 'signedOut') {
-        setAuthorized(null);
+        setAuthorized(undefined);
       }
     });
     return () => cancelToken();
@@ -194,7 +197,7 @@ const App = () => {
             setGroups(groups);
           }
 
-          setAuthorized(user);
+          setAuthorized(user ?? undefined);
         }}
       />
     );
@@ -209,7 +212,7 @@ const App = () => {
       <Map
         user={{
           id: authorized.userId,
-          group: getActiveGroupForUser(),
+          group: activeGroup,
           groups: groups,
           name: authorized.username,
         }}
@@ -221,84 +224,15 @@ const App = () => {
           }))
         }
         onNotification={(message, openDetails) => notify(message, openDetails)}
-        onCreate={(place) =>
-          createRestaurant(
-            {
-              input: {
-                group: getActiveGroupForUser(),
-                name: place.name || 'n/a',
-                googlePlaceId: place.place_id || '',
-                address: place.formatted_address,
-                website: place.website,
-                position: {
-                  lat: place.geometry?.location?.lat() || 0,
-                  lng: place.geometry?.location?.lng() || 0,
-                },
-              },
-            },
-            {
-              onSuccess: () => {
-                queryClient.invalidateQueries(
-                  useRestaurantsQuery.getKey({
-                    group: getActiveGroupForUser(),
-                    groups: groups || [],
-                    from: today,
-                  }),
-                );
-              },
-            },
-          )
-        }
-        onVisit={(id, date) =>
-          updateRestaurant(
-            {
-              input: {
-                id,
-                group: getActiveGroupForUser(),
-                createVisits: [date],
-              },
-            },
-            {
-              onSuccess: () => {
-                queryClient.invalidateQueries(
-                  useRestaurantsQuery.getKey({
-                    group: getActiveGroupForUser(),
-                    groups: groups || [],
-                    from: today,
-                  }),
-                );
-              },
-            },
-          )
-        }
-        onRate={(id, { value, comment }) =>
-          createRating(
-            {
-              input: {
-                id,
-                value,
-                comment,
-              },
-            },
-            {
-              onSuccess: () => {
-                queryClient.invalidateQueries(
-                  useRestaurantsQuery.getKey({
-                    group: getActiveGroupForUser(),
-                    groups: groups || [],
-                    from: today,
-                  }),
-                );
-              },
-            },
-          )
-        }
         restaurants={restaurantsData.restaurants}
         dates={restaurantsData.dates}
       />
       <ToastContainer />
+      <TanStackRouterDevtools />
     </APIProvider>
   );
 };
 
-export default App;
+export const Route = createRootRoute({
+  component: App,
+});

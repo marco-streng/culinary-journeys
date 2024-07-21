@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const isImageZoomOpen = () =>
   document.querySelectorAll('[data-rmiz-portal] > dialog[open]').length > 0;
@@ -11,7 +11,6 @@ export const Modal = ({
   onClose: () => void;
 }) => {
   const innerRef = useRef<HTMLDivElement>(null);
-
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (
       !innerRef.current?.contains(event.target as Element) &&
@@ -20,6 +19,20 @@ export const Modal = ({
       onClose();
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.code === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown, false);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown, false);
+    };
+  }, []);
 
   return (
     <div className="relative z-50" role="dialog" aria-modal="true">

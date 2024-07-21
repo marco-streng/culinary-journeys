@@ -157,6 +157,7 @@ export type Query = {
   __typename?: 'Query';
   dates: Array<Scalars['AWSDate']['output']>;
   groups: Array<Group>;
+  restaurant: Restaurant;
   restaurants: Array<Restaurant>;
   user: User;
 };
@@ -167,6 +168,10 @@ export type QueryDatesArgs = {
 
 export type QueryGroupsArgs = {
   ids: Array<Scalars['ID']['input']>;
+};
+
+export type QueryRestaurantArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type QueryRestaurantsArgs = {
@@ -193,6 +198,7 @@ export type Restaurant = {
   googlePlaceId: Scalars['String']['output'];
   /** @deprecated Use googlePlaceId field */
   google_place_id?: Maybe<Scalars['String']['output']>;
+  group: Scalars['ID']['output'];
   id: Scalars['ID']['output'];
   images?: Maybe<Array<Scalars['String']['output']>>;
   name: Scalars['String']['output'];
@@ -254,16 +260,13 @@ export type GroupsQuery = {
   groups: Array<{ __typename?: 'Group'; id: string; name: string }>;
 };
 
-export type RestaurantsQueryVariables = Exact<{
-  from: Scalars['AWSDate']['input'];
-  group: Scalars['String']['input'];
-  groups: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
+export type RestaurantQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
 }>;
 
-export type RestaurantsQuery = {
+export type RestaurantQuery = {
   __typename?: 'Query';
-  dates: Array<string>;
-  restaurants: Array<{
+  restaurant: {
     __typename?: 'Restaurant';
     visits?: Array<string> | null;
     googlePlaceId: string;
@@ -281,6 +284,26 @@ export type RestaurantsQuery = {
       comment?: string | null;
     }>;
     createdBy?: { __typename?: 'User'; name: string } | null;
+  };
+};
+
+export type RestaurantsQueryVariables = Exact<{
+  from: Scalars['AWSDate']['input'];
+  group: Scalars['String']['input'];
+  groups: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
+}>;
+
+export type RestaurantsQuery = {
+  __typename?: 'Query';
+  dates: Array<string>;
+  restaurants: Array<{
+    __typename?: 'Restaurant';
+    visits?: Array<string> | null;
+    id: string;
+    name: string;
+    address?: string | null;
+    position: { __typename?: 'Position'; lat: number; lng: number };
+    ratings: Array<{ __typename?: 'Rating'; value: number }>;
   }>;
   groups: Array<{ __typename?: 'Group'; id: string; name: string }>;
 };
@@ -294,18 +317,11 @@ export type CreateRestaurantMutation = {
   createRestaurant: {
     __typename?: 'Restaurant';
     visits?: Array<string> | null;
-    googlePlaceId: string;
     id: string;
     name: string;
     address?: string | null;
-    website?: string | null;
     position: { __typename?: 'Position'; lat: number; lng: number };
-    ratings: Array<{
-      __typename?: 'Rating';
-      value: number;
-      userId: string;
-      userName: string;
-    }>;
+    ratings: Array<{ __typename?: 'Rating'; value: number }>;
   };
 };
 
@@ -423,9 +439,9 @@ useGroupsQuery.getKey = (variables: GroupsQueryVariables) => [
   variables,
 ];
 
-export const RestaurantsDocument = `
-    query restaurants($from: AWSDate!, $group: String!, $groups: [ID!]!) {
-  restaurants(group: $group) {
+export const RestaurantDocument = `
+    query restaurant($id: ID!) {
+  restaurant(id: $id) {
     visits
     googlePlaceId
     id
@@ -445,6 +461,43 @@ export const RestaurantsDocument = `
     images
     createdBy {
       name
+    }
+  }
+}
+    `;
+
+export const useRestaurantQuery = <TData = RestaurantQuery, TError = unknown>(
+  variables: RestaurantQueryVariables,
+  options?: UseQueryOptions<RestaurantQuery, TError, TData>,
+) => {
+  return useQuery<RestaurantQuery, TError, TData>(
+    ['restaurant', variables],
+    fetcher<RestaurantQuery, RestaurantQueryVariables>(
+      RestaurantDocument,
+      variables,
+    ),
+    options,
+  );
+};
+
+useRestaurantQuery.getKey = (variables: RestaurantQueryVariables) => [
+  'restaurant',
+  variables,
+];
+
+export const RestaurantsDocument = `
+    query restaurants($from: AWSDate!, $group: String!, $groups: [ID!]!) {
+  restaurants(group: $group) {
+    visits
+    id
+    name
+    address
+    position {
+      lat
+      lng
+    }
+    ratings {
+      value
     }
   }
   dates(from: $from)
@@ -478,19 +531,15 @@ export const CreateRestaurantDocument = `
     mutation createRestaurant($input: CreateRestaurantInput!) {
   createRestaurant(input: $input) {
     visits
-    googlePlaceId
     id
     name
     address
-    website
     position {
       lat
       lng
     }
     ratings {
       value
-      userId
-      userName
     }
   }
 }

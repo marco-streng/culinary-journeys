@@ -1,3 +1,4 @@
+import { Outlet, useNavigate, useRouterState } from '@tanstack/react-router';
 import {
   AdvancedMarker,
   Map as GoogleMap,
@@ -5,7 +6,7 @@ import {
 } from '@vis.gl/react-google-maps';
 import { signOut } from 'aws-amplify/auth';
 import dayjs from 'dayjs';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   BiChevronLeft,
@@ -15,26 +16,24 @@ import {
   BiSort,
 } from 'react-icons/bi';
 import {
-  AddRestaurant,
   Button,
   ButtonSize,
   ButtonVariant,
-  Details,
   Filter,
   Input,
+  LinkButton,
+  LinkButtonSize,
   Modal,
-  Rate,
   RestaurantCard,
   RestaurantPin,
   Select,
   SelectWrapper,
-  Visit,
 } from '.';
 import { DEFAULT_CENTER, MAP_ID } from '../config';
 import { NotificationPayload, useNotifications } from '../hooks';
-import { RestaurantsQuery, Scalars } from '../types/gql';
+import { RestaurantsQuery } from '../types/gql';
 
-type ModalKind = 'add' | 'visit' | 'rate' | 'details' | 'filter';
+type ModalKind = 'filter';
 
 type Restaurant = RestaurantsQuery['restaurants'][0];
 
@@ -49,9 +48,6 @@ export const Map = ({
   dates,
   user,
   groups,
-  onCreate,
-  onVisit,
-  onRate,
   onChangeGroup,
   onNotification,
 }: {
@@ -64,17 +60,6 @@ export const Map = ({
     groups: string[];
     name: string;
   };
-  onCreate: (
-    place: google.maps.places.PlaceResult & { website?: string },
-  ) => Promise<unknown>;
-  onVisit: (
-    id: Scalars['ID']['input'],
-    date: Scalars['AWSDate']['input'],
-  ) => Promise<unknown>;
-  onRate: (
-    id: Scalars['ID']['input'],
-    { value, comment }: { value: number; comment?: string },
-  ) => Promise<unknown>;
   onChangeGroup: (group: string) => void;
   onNotification: (
     message: NotificationPayload,
@@ -82,6 +67,8 @@ export const Map = ({
   ) => void;
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { location } = useRouterState();
   const [modal, setModal] = useState<ModalProps>({
     isVisible: false,
   });
@@ -96,65 +83,17 @@ export const Map = ({
   useEffect(() => {
     if (lastMessage) {
       onNotification(lastMessage, (restaurant) => {
-        handleShowModal({
-          isVisible: true,
-          kind: 'details',
-          restaurant,
-        });
+        navigate({ to: `/restaurant/${restaurant.id}` });
       });
     }
   }, [lastMessage]);
 
-  const getPlaceDetails = async (
-    placeId: string,
-  ): Promise<google.maps.places.PlaceResult | null> => {
-    return new Promise((resolve) => {
-      if (!map) {
-        resolve(null);
-        return;
-      }
-
-      const service = new google.maps.places.PlacesService(map);
-      service.getDetails({ placeId }, (result) => {
-        resolve(result);
-      });
-    });
-  };
-
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (event.code === 'Escape') {
-      handleCloseModal();
-    }
-  }, []);
-
-  const handleShowModal = (props: ModalProps) => {
-    setModal(props);
-    document.addEventListener('keydown', handleKeyDown, false);
-  };
-
   const handleCloseModal = () => {
-    setModal({
-      isVisible: false,
-      restaurant: undefined,
-      kind: undefined,
-    });
-    document.removeEventListener('keydown', handleKeyDown, false);
+    setModal({ isVisible: false });
   };
 
-  const handleRate = (
-    id: Scalars['ID']['input'],
-    { value, comment }: { value: number; comment?: string },
-  ) => {
-    onRate(id, { value, comment });
-    handleCloseModal();
-  };
-
-  const handleVisit = (
-    id: Scalars['ID']['input'],
-    date: Scalars['AWSDate']['input'],
-  ) => {
-    onVisit(id, date);
-    handleCloseModal();
+  const handleCloseRoutedModal = () => {
+    navigate({ to: '/' });
   };
 
   const filteredData = restaurants.filter((restaurant) => {
@@ -224,7 +163,6 @@ export const Map = ({
               className="inline cursor-pointer fill-gray-600"
             />
           </div>
-
           <div className="my-2">
             <Input
               value={listSearch}
@@ -232,7 +170,6 @@ export const Map = ({
               onChange={(event) => setListSearch(event.target.value)}
             />
           </div>
-
           {filteredData
             .filter((restaurant) => {
               if ((listSearch?.length ?? 0) > 0) {
@@ -264,29 +201,8 @@ export const Map = ({
                         window.scrollTo(0, 0);
                       }
                     }}
-                    onDetails={(restaurant) => {
-                      handleShowModal({
-                        isVisible: true,
-                        kind: 'details',
-                        restaurant,
-                      });
-                    }}
                     restaurant={restaurant}
                     user={user}
-                    onRate={(restaurant) =>
-                      handleShowModal({
-                        isVisible: true,
-                        restaurant,
-                        kind: 'rate',
-                      })
-                    }
-                    onVisit={(restaurant) =>
-                      handleShowModal({
-                        isVisible: true,
-                        kind: 'visit',
-                        restaurant,
-                      })
-                    }
                   />
                 </div>
               );
@@ -340,14 +256,9 @@ export const Map = ({
               </Button>
             </div>
             <div className="absolute right-3 top-5 z-10 md:hidden">
-              <Button
-                onClick={() =>
-                  handleShowModal({ isVisible: true, kind: 'add' })
-                }
-                size={ButtonSize.Dot}
-              >
+              <LinkButton to="/add" size={LinkButtonSize.Dot}>
                 <BiPlus size="20" />
-              </Button>
+              </LinkButton>
             </div>
             <div className="absolute right-14 top-5 z-10 md:hidden">
               <Button
@@ -364,14 +275,9 @@ export const Map = ({
               </Button>
             </div>
             <div className="absolute right-2 top-2 z-10 hidden md:block">
-              <Button
-                onClick={() =>
-                  handleShowModal({ isVisible: true, kind: 'add' })
-                }
-                className="mr-2 shadow-xl"
-              >
+              <LinkButton to="/add" className="mr-2 shadow-xl">
                 {t('addRestaurant')}
-              </Button>
+              </LinkButton>
               <Button
                 variant={ButtonVariant.Light}
                 onClick={() => signOut()}
@@ -406,11 +312,7 @@ export const Map = ({
               {filteredData.map((restaurant) => (
                 <AdvancedMarker
                   onClick={() => {
-                    handleShowModal({
-                      isVisible: true,
-                      kind: 'details',
-                      restaurant,
-                    });
+                    navigate({ to: `/restaurant/${restaurant.id}` });
                   }}
                   position={restaurant.position}
                   title={restaurant.name}
@@ -432,42 +334,17 @@ export const Map = ({
               onClose={handleCloseModal}
             />
           )}
-          {modal.kind === 'visit' && modal.restaurant && (
-            <Visit
-              restaurant={modal.restaurant}
-              onClose={handleCloseModal}
-              onSubmit={handleVisit}
-            />
-          )}
-          {modal.kind === 'rate' && modal.restaurant && (
-            <Rate
-              restaurant={modal.restaurant}
-              onClose={handleCloseModal}
-              onSubmit={handleRate}
-            />
-          )}
-          {modal.kind === 'add' && (
-            <AddRestaurant
-              restaurants={restaurants}
-              onClose={handleCloseModal}
-              onSubmit={async (place) => {
-                const details = place.place_id
-                  ? await getPlaceDetails(place.place_id)
-                  : null;
+        </Modal>
+      )}
 
-                await onCreate({
-                  ...place,
-                  website: details?.website,
-                });
-                handleCloseModal();
-              }}
-            />
-          )}
-          {modal.kind === 'details' && modal.restaurant && (
-            <Details
-              user={user}
-              restaurant={modal.restaurant}
-              onClose={handleCloseModal}
+      {location.pathname !== '/' && (
+        <Modal onClose={handleCloseRoutedModal}>
+          <Outlet />
+          {modal.kind === 'filter' && (
+            <Filter
+              filter={filter}
+              onChange={(value) => setFilter(value)}
+              onClose={handleCloseRoutedModal}
             />
           )}
         </Modal>
