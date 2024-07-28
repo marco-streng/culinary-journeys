@@ -194,7 +194,7 @@ export const RestaurantDetails = ({
                     className="rounded-sm hover:scale-110"
                     style={{
                       backgroundColor: '#efefef',
-                      backgroundImage: `url(${import.meta.env.VITE_IMAGE_HOST ?? ''}${image}?format=jpeg&width=700)`,
+                      backgroundImage: `url(${import.meta.env.VITE_IMAGE_HOST ?? ''}/${image}?format=jpeg&width=700)`,
                       backgroundPosition: '50% center',
                       backgroundRepeat: 'no-repeat',
                       backgroundSize: 'cover',
