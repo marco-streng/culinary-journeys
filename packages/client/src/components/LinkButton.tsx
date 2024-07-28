@@ -1,4 +1,4 @@
-import { Link, LinkProps } from '@tanstack/react-router';
+import { Link, type LinkProps } from '@tanstack/react-router';
 
 export enum LinkButtonVariant {
   Default,
@@ -17,13 +17,16 @@ export type LinkButtonProps = {
   size?: LinkButtonSize;
   full?: boolean;
   className?: string;
-} & LinkProps;
+} & LinkProps &
+  React.PropsWithoutRef<Omit<React.HTMLProps<'a'>, 'children' | 'preload'>>;
 
 const variants = {
-  [LinkButtonVariant.Default]: 'text-white bg-sky-600 hover:bg-sky-700',
+  [LinkButtonVariant.Default]:
+    'text-white bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 outline-sky-900',
   [LinkButtonVariant.Secondary]:
-    'text-gray-400 bg-gray-200 hover:bg-gray-300 hover:text-gray-600',
-  [LinkButtonVariant.Light]: 'bg-white text-gray-800 hover:bg-gray-200',
+    'text-gray-400 bg-gray-200 hover:bg-gray-300 focus:bg-gray-300 hover:text-gray-600 outline-sky-900',
+  [LinkButtonVariant.Light]:
+    'bg-white text-gray-800 hover:bg-gray-200 focus:bg-gray-200 outline-sky-900',
 };
 
 const sizes = {
