@@ -10,6 +10,7 @@ export * from './LinkButton';
 export * from './Loader';
 export * from './Map';
 export * from './Modal';
+export * from './RadioGroup';
 export * from './Rate';
 export * from './Rating';
 export * from './RestaurantCard';

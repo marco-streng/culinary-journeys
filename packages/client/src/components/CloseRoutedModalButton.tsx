@@ -5,7 +5,12 @@ export const CloseRoutedModalButton = () => {
   const { t } = useTranslation();
 
   return (
-    <LinkButton to="/" className="mr-2" variant={LinkButtonVariant.Secondary}>
+    <LinkButton
+      to="/"
+      aria-label={t('close')}
+      className="mr-2"
+      variant={LinkButtonVariant.Secondary}
+    >
       {t('close')}
     </LinkButton>
   );

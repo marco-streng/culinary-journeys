@@ -111,6 +111,7 @@ export const RestaurantDetails = ({
               className="cursor-pointer text-gray-400"
               href={restaurant.website}
               target="_blank"
+              aria-label={t('website')}
             >
               <BsBoxArrowUpRight size={24} />
             </a>
@@ -217,7 +218,13 @@ export const RestaurantDetails = ({
                 <div className="grid grid-cols-4 items-center gap-x-6">
                   <div className="break-words">{name}</div>
                   <div className="col-span-3">
-                    <div className="h-2.5 w-full rounded-xl bg-gray-200 dark:bg-gray-700">
+                    <div
+                      role="meter"
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={progress}
+                      className="h-2.5 w-full rounded-xl bg-gray-200 dark:bg-gray-700"
+                    >
                       <div
                         className="h-2.5 rounded-xl bg-sky-600"
                         style={{ width: `${progress}%` }}
