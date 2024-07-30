@@ -24,7 +24,7 @@
     "autoprefixer": "^10.4.19",
     "aws-amplify": "^6.3.4",
     "axios": "^1.7.2",
-    "dayjs": "^1.11.10",
+    "dayjs": "^1.11.12",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
     "i18next": "^23.12.2",
