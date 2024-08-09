@@ -2,7 +2,7 @@ export * from './AddRestaurant';
 export * from './Button';
 export * from './CloseRoutedModalButton';
 export * from './Details';
-export * from './Error';
+export * from './Errors';
 export * from './Filter';
 export * from './Input';
 export * from './Label';
@@ -19,3 +19,4 @@ export * from './Select';
 export * from './SignIn';
 export * from './Textarea';
 export * from './Visit';
+

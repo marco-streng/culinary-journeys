@@ -1,9 +1,7 @@
-import { ErrorMessage } from '@hookform/error-message';
+import { useForm } from '@tanstack/react-form';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMatch, useNavigate } from '@tanstack/react-router';
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { AiFillStar } from 'react-icons/ai';
 import { toast } from 'react-toastify';
@@ -17,7 +15,7 @@ import {
 } from '../types/gql';
 import { Button } from './Button';
 import { CloseRoutedModalButton } from './CloseRoutedModalButton';
-import { Error } from './Error';
+import { Errors } from './Errors';
 import { Label } from './Label';
 import { Loader } from './Loader';
 import { Textarea } from './Textarea';
@@ -61,19 +59,7 @@ export const Rate = () => {
     activeGroupStore,
   });
 
-  const {
-    control,
-    register,
-    setFocus,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
-
-  useEffect(() => {
-    setFocus('comment');
-  }, [setFocus]);
-
-  const submit = (data: FormData) => {
+  const handleSubmit = ({ value: data }: { value: FormData }) => {
     const { value, comment } = data;
 
     createRating(
@@ -112,8 +98,18 @@ export const Rate = () => {
     );
   };
 
+  const rateform = useForm<FormData>({
+    onSubmit: handleSubmit,
+  });
+
   return (
-    <form onSubmit={handleSubmit(submit)}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        rateform.handleSubmit();
+      }}
+    >
       <div className="p-5">
         {isLoading || isRating ? (
           <Loader full={false} />
@@ -130,29 +126,30 @@ export const Rate = () => {
                 <Label>{t('stars')}</Label>
               </div>
               <div className="basis-3/4">
-                <Controller
+                <rateform.Field
                   name="value"
-                  control={control}
-                  rules={{
-                    required: t('missingRateValue'),
+                  validators={{
+                    onChange: ({ value }) => {
+                      if (!value) {
+                        return t('missingRateValue');
+                      }
+
+                      return undefined;
+                    },
                   }}
-                  render={({ field }) => (
+                  children={(field) => (
                     <>
                       {Array.from({ length: 5 }).map((_, nr) => (
                         <AiFillStar
                           size={55}
                           className={`ci-rating_star ${
-                            (field.value ?? 0) >= nr + 1 &&
+                            (field.state.value ?? 0) >= nr + 1 &&
                             'ci-rating_star--active'
                           }`}
-                          onClick={() => field.onChange(nr + 1)}
+                          onClick={() => field.handleChange(nr + 1)}
                         />
                       ))}
-                      <ErrorMessage
-                        errors={errors}
-                        name="value"
-                        render={({ message }) => <Error message={message} />}
-                      />
+                      <Errors messages={field.state.meta.errors} />
                     </>
                   )}
                 />
@@ -164,7 +161,17 @@ export const Rate = () => {
                 <Label htmlFor="comment">{t('comment')}</Label>
               </div>
               <div className="basis-3/4">
-                <Textarea {...register('comment')} />
+                <rateform.Field
+                  name="comment"
+                  children={(field) => (
+                    <Textarea
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                  )}
+                />
               </div>
             </div>
           </>
