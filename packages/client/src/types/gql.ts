@@ -499,6 +499,7 @@ export const RestaurantsDocument = `
     ratings {
       userId
       value
+      userId
     }
   }
   dates(from: $from)

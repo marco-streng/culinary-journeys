@@ -59,6 +59,7 @@ export const restaurantsQuery = gql`
       ratings {
         userId
         value
+        userId
       }
     }
     dates(from: $from)
