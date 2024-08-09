@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { CloseRoutedModalButton } from './CloseRoutedModalButton';
+import { Button, ButtonVariant } from './Button';
+import { RadioGroup } from './RadioGroup';
 
 export type Filter = 'all' | 'planned' | 'done';
 
@@ -21,37 +22,44 @@ export const Filter = ({
   return (
     <>
       <div className="p-8 text-center">
-        <div className="inline-block overflow-hidden rounded-sm">
-          <button
-            onClick={() => handleChange('all')}
-            className={`border-2 border-sky-600 px-8 py-4 font-semibold ${
-              filter !== 'all' ? ' text-gray-500' : 'bg-sky-600 text-white'
-            }`}
-          >
-            {t('all')}
-          </button>
-          <button
-            onClick={() => handleChange('done')}
-            className={`border-2 border-l-0 border-sky-600 px-8 py-4 font-semibold ${
-              filter !== 'done' ? ' text-gray-500' : 'bg-sky-600 text-white'
-            }`}
-          >
-            {t('visited')}
-          </button>
-          <button
-            onClick={() => handleChange('planned')}
-            className={`border-2 border-l-0 border-sky-600 px-8 py-4 font-semibold ${
-              filter !== 'planned' ? ' text-gray-500' : 'bg-sky-600 text-white'
-            }`}
-          >
-            {t('planned')}
-          </button>
-        </div>
+        <RadioGroup
+          onChange={(event) =>
+            handleChange(event.currentTarget.value as Filter)
+          }
+          options={[
+            {
+              label: t('all'),
+              value: 'all',
+              checked: filter === 'all',
+            },
+            {
+              label: t('visited'),
+              value: 'done',
+              checked: filter === 'done',
+            },
+            {
+              label: t('planned'),
+              value: 'planned',
+              checked: filter === 'planned',
+            },
+          ]}
+          label={t('filter')}
+          name="filter"
+          className="rounded-sm bg-gray-200 p-4"
+        />
       </div>
       <div className="bg-gray-50 px-4 py-3">
         <div className="flex flex-row">
           <div className="grow">
-            <CloseRoutedModalButton />
+            <Button
+              type="button"
+              aria-label={t('close')}
+              onClick={onClose}
+              className="mr-2"
+              variant={ButtonVariant.Secondary}
+            >
+              {t('close')}
+            </Button>
           </div>
         </div>
       </div>

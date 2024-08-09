@@ -16,13 +16,15 @@ export type ButtonProps = {
   size?: ButtonSize;
   full?: boolean;
   className?: string;
-} & Record<string, unknown>;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const variants = {
-  [ButtonVariant.Default]: 'text-white bg-sky-600 hover:bg-sky-700',
+  [ButtonVariant.Default]:
+    'text-white bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 outline-sky-900',
   [ButtonVariant.Secondary]:
-    'text-gray-400 bg-gray-200 hover:bg-gray-300 hover:text-gray-600',
-  [ButtonVariant.Light]: 'bg-white text-gray-800 hover:bg-gray-200',
+    'text-gray-400 bg-gray-200 hover:bg-gray-300 focus:bg-gray-300 hover:text-gray-600 outline-sky-900',
+  [ButtonVariant.Light]:
+    'bg-white text-gray-800 hover:bg-gray-200 focus:bg-gray-200 outline-sky-900',
 };
 
 const sizes = {
