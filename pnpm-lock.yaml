@@ -203,8 +203,8 @@ importers:
         specifier: ^1.0.4
         version: 1.0.4
       '@types/aws-lambda':
-        specifier: ^8.10.138
-        version: 8.10.138
+        specifier: ^8.10.143
+        version: 8.10.143
       '@types/mime-types':
         specifier: ^2.1.4
         version: 2.1.4
@@ -3546,8 +3546,8 @@ packages:
   '@types/aws-cloudfront-function@1.0.4':
     resolution: {integrity: sha512-djiKM7y3jReOxdS1bEmxrVnVRF1jrRggZCqD0duDSJTyA7b1VXkQ5d/T379ONLczFb4RSxFB4LV0wTCfq5kB5w==}
 
-  '@types/aws-lambda@8.10.138':
-    resolution: {integrity: sha512-71EHMl70TPWIAsFuHd85NHq6S6T2OOjiisPTrH7RgcjzpJpPh4RQJv7PvVvIxc6PIp8CLV7F9B+TdjcAES5vcA==}
+  '@types/aws-lambda@8.10.143':
+    resolution: {integrity: sha512-u5vzlcR14ge/4pMTTMDQr3MF0wEe38B2F9o84uC4F43vN5DGTy63npRrB6jQhyt+C0lGv4ZfiRcRkqJoZuPnmg==}
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -7346,7 +7346,7 @@ snapshots:
   '@aws-amplify/data-schema@1.2.2(aws-cdk-lib@2.150.0(constructs@10.3.0))(constructs@10.3.0)':
     dependencies:
       '@aws-amplify/data-schema-types': 0.7.14(aws-cdk-lib@2.150.0(constructs@10.3.0))(constructs@10.3.0)
-      '@types/aws-lambda': 8.10.138
+      '@types/aws-lambda': 8.10.143
       rxjs: 7.8.1
     transitivePeerDependencies:
       - aws-cdk-lib
@@ -12472,7 +12472,7 @@ snapshots:
 
   '@types/aws-cloudfront-function@1.0.4': {}
 
-  '@types/aws-lambda@8.10.138': {}
+  '@types/aws-lambda@8.10.143': {}
 
   '@types/babel__core@7.20.5':
     dependencies:
