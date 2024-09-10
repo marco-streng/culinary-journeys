@@ -260,8 +260,8 @@ importers:
         specifier: ^0.0.19
         version: 0.0.19(@types/react@18.2.66)(react@18.2.0)
       '@react-email/tailwind':
-        specifier: ^0.0.19
-        version: 0.0.19(react@18.2.0)
+        specifier: ^0.1.0
+        version: 0.1.0(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -2765,11 +2765,11 @@ packages:
     peerDependencies:
       react: ^18.2.0
 
-  '@react-email/tailwind@0.0.19':
-    resolution: {integrity: sha512-bA0w4D7mSNowxWhcO0jBJauFIPf2Ok7QuKlrHwCcxyX35L2pb5D6ZmXYOrD9C6ADQuVz5oEX+oed3zpSLROgPg==}
+  '@react-email/tailwind@0.1.0':
+    resolution: {integrity: sha512-qysVUEY+M3SKUvu35XDpzn7yokhqFOT3tPU6Mj/pgc62TL5tQFj6msEbBtwoKs2qO3WZvai0DIHdLhaOxBQSow==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
-      react: ^18.2.0
+      react: ^18.0 || ^19.0 || ^19.0.0-rc
 
   '@react-email/text@0.0.8':
     resolution: {integrity: sha512-uvN2TNWMrfC9wv/LLmMLbbEN1GrMWZb9dBK14eYxHHAEHCeyvGb5ePZZ2MPyzO7Y5yTC+vFEnCEr76V+hWMxCQ==}
@@ -11550,7 +11550,7 @@ snapshots:
     dependencies:
       react: 18.2.0
 
-  '@react-email/tailwind@0.0.19(react@18.2.0)':
+  '@react-email/tailwind@0.1.0(react@18.2.0)':
     dependencies:
       react: 18.2.0
 
