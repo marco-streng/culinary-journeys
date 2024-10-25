@@ -21,7 +21,7 @@
     "@tanstack/router-devtools": "^1.45.6",
     "@tanstack/router-plugin": "^1.45.13",
     "@vis.gl/react-google-maps": "^1.0.0",
-    "autoprefixer": "^10.4.19",
+    "autoprefixer": "^10.4.20",
     "aws-amplify": "^6.3.4",
     "axios": "^1.7.2",
     "dayjs": "^1.11.12",
