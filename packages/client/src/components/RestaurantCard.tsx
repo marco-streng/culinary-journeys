@@ -73,7 +73,7 @@ export const RestaurantCard = ({
             {t('visit')}
           </LinkButton>
           {visited &&
-            restaurant.ratings
+            !restaurant.ratings
               ?.map((rating) => rating?.userId)
               .includes(user.id) && (
               <LinkButton
