@@ -57,6 +57,7 @@ export const restaurantsQuery = gql`
         lng
       }
       ratings {
+        userId
         value
       }
     }
