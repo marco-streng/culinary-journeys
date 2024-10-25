@@ -1,8 +1,8 @@
 import {
-  UseMutationOptions,
-  UseQueryOptions,
   useMutation,
+  UseMutationOptions,
   useQuery,
+  UseQueryOptions,
 } from '@tanstack/react-query';
 import { fetcher } from '../lib/index';
 export type Maybe<T> = T | null;
@@ -303,7 +303,7 @@ export type RestaurantsQuery = {
     name: string;
     address?: string | null;
     position: { __typename?: 'Position'; lat: number; lng: number };
-    ratings: Array<{ __typename?: 'Rating'; value: number }>;
+    ratings: Array<{ __typename?: 'Rating'; userId: string; value: number }>;
   }>;
   groups: Array<{ __typename?: 'Group'; id: string; name: string }>;
 };
@@ -497,6 +497,7 @@ export const RestaurantsDocument = `
       lng
     }
     ratings {
+      userId
       value
     }
   }
