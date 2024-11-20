@@ -10,7 +10,7 @@ export const Input = forwardRef<
     <input
       ref={ref}
       {...rest}
-      className={`text-md w-full rounded-sm border border-gray-300 bg-gray-50 p-2 text-gray-900 ${className}`}
+      className={`text-md w-full rounded-sm border border-gray-300 bg-gray-50 p-2 text-gray-900 outline-sky-900 ${className}`}
     />
   );
 });

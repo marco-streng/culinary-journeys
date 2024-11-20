@@ -57,6 +57,7 @@ const ToastMessage = ({
 
   return (
     <div
+      role="alert"
       className="cursor-pointer"
       onClick={() => {
         onOpenDetails(restaurant);

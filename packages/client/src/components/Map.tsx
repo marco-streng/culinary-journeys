@@ -24,6 +24,7 @@ import {
   LinkButton,
   LinkButtonSize,
   Modal,
+  RadioGroup,
   RestaurantCard,
   RestaurantPin,
   Select,
@@ -118,6 +119,7 @@ export const Map = ({
         >
           <button
             type="button"
+            aria-label={isSidebarOpen ? t('closeSidebar') : t('openSidebar')}
             className={`absolute top-1/2 hidden bg-gray-200 md:block ${
               isSidebarOpen ? 'md:left-1/3 lg:left-1/4' : 'left-0'
             } z-30`}
@@ -138,7 +140,8 @@ export const Map = ({
             <SelectWrapper>
               <Select
                 id="group"
-                prefix="Group: "
+                aria-label={t('group')}
+                prefix={`${t('group')}: `}
                 onChange={(event) => onChangeGroup(event.target.value)}
                 options={groups.map((group) => ({
                   label: group.name,
@@ -157,15 +160,19 @@ export const Map = ({
                 </>
               )}
             </div>
-            <BiSort
-              size={23}
+            <button
+              type="button"
+              className="cursor-pointer outline-sky-900"
+              aria-label={t('sort')}
               onClick={() => setVisitedFirst((value) => !value)}
-              className="inline cursor-pointer fill-gray-600"
-            />
+            >
+              <BiSort size={23} className="inline fill-gray-600" />
+            </button>
           </div>
           <div className="my-2">
             <Input
               value={listSearch}
+              aria-label={t('searchList')}
               placeholder={t('searchList')}
               onChange={(event) => setListSearch(event.target.value)}
             />
@@ -208,6 +215,8 @@ export const Map = ({
               );
             })}
           <Button
+            type="button"
+            aria-label={t('logout')}
             variant={ButtonVariant.Light}
             onClick={() => signOut()}
             className={`mr-2 w-full shadow-xl md:hidden`}
@@ -226,42 +235,44 @@ export const Map = ({
               alt="Culinary Journeys"
               className="absolute left-5 top-5 z-10 w-10 md:hidden"
             />
-            <div className="absolute left-2 top-2 z-10 hidden md:block">
-              <Button
-                variant={ButtonVariant.Light}
-                onClick={() => setFilter('all')}
-                className={`mr-2 shadow-xl  ${
-                  filter !== 'all' && 'opacity-50 hover:opacity-100'
-                }`}
-              >
-                {t('all')}
-              </Button>
-              <Button
-                variant={ButtonVariant.Light}
-                onClick={() => setFilter('done')}
-                className={`mr-2 shadow-xl ${
-                  filter !== 'done' && 'opacity-50 hover:opacity-100'
-                }`}
-              >
-                {t('visited')}
-              </Button>
-              <Button
-                variant={ButtonVariant.Light}
-                onClick={() => setFilter('planned')}
-                className={`mr-8 shadow-xl ${
-                  filter !== 'planned' && 'opacity-50 hover:opacity-100'
-                }`}
-              >
-                {t('planned')}
-              </Button>
-            </div>
+            <RadioGroup
+              onChange={(event) =>
+                setFilter(event.currentTarget.value as Filter)
+              }
+              options={[
+                {
+                  label: t('all'),
+                  value: 'all',
+                  checked: filter === 'all',
+                },
+                {
+                  label: t('visited'),
+                  value: 'done',
+                  checked: filter === 'done',
+                },
+                {
+                  label: t('planned'),
+                  value: 'planned',
+                  checked: filter === 'planned',
+                },
+              ]}
+              label={t('filter')}
+              name="filter"
+              className="absolute left-2 top-2 z-10 hidden focus:bottom-10 md:block"
+            />
             <div className="absolute right-3 top-5 z-10 md:hidden">
-              <LinkButton to="/add" size={LinkButtonSize.Dot}>
+              <LinkButton
+                label={t('addRestaurant')}
+                to="/add"
+                size={LinkButtonSize.Dot}
+              >
                 <BiPlus size="20" />
               </LinkButton>
             </div>
             <div className="absolute right-14 top-5 z-10 md:hidden">
               <Button
+                type="button"
+                aria-label={t('filter')}
                 variant={ButtonVariant.Secondary}
                 onClick={() =>
                   setModal({
@@ -275,10 +286,16 @@ export const Map = ({
               </Button>
             </div>
             <div className="absolute right-2 top-2 z-10 hidden md:block">
-              <LinkButton to="/add" className="mr-2 shadow-xl">
+              <LinkButton
+                aria-label={t('addRestaurant')}
+                to="/add"
+                className="mr-2 shadow-xl"
+              >
                 {t('addRestaurant')}
               </LinkButton>
               <Button
+                type="button"
+                aria-label={t('logout')}
                 variant={ButtonVariant.Light}
                 onClick={() => signOut()}
                 className={`mr-2 shadow-xl`}
