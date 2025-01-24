@@ -32,6 +32,10 @@
   "comment": "Kommentar",
   "visited": "Besucht",
   "planned": "Geplant",
+  "group": "Gruppe",
+  "website": "Website",
+  "sort": "Sortieren",
+  "filter": "Filter",
   "addRestaurant": "Restaurant hinzufügen",
   "restaurantAdded": "Restaurant wurde hinzugefügt.",
   "restaurantRated": "Restaurant wurde bewertet.",
@@ -40,5 +44,7 @@
   "setNewPassword": "Bitte vergib ein eigenes neues Passwort.",
   "invalidPassword": "Dein Passwort erfüllt leider die Passwortrichtlinien nicht. Bitte gib ein neues Passwort ein.",
   "missingRateValue": "Bitte gib eine Bewertung in Sternen an.",
-  "notFound": "Keine Daten verfügbar."
+  "notFound": "Keine Daten verfügbar.",
+  "openSidebar": "Seitenleiste öffnen",
+  "closeSidebar": "Seitenleiste schließen"
 }
