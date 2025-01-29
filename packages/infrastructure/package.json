@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@aws-appsync/utils": "^1.8.0",
-    "@aws-lambda-powertools/logger": "^2.11.0",
+    "@aws-lambda-powertools/logger": "^2.13.1",
     "@aws-sdk/client-cognito-identity-provider": "3.723.0",
     "@aws-sdk/client-dynamodb": "3.724.0",
     "@aws-sdk/client-s3": "3.723.0",
