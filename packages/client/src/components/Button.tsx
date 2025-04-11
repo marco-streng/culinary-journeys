@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 export enum ButtonVariant {
   Default,
   Light,
@@ -39,9 +41,12 @@ export const Button = (props: ButtonProps) => {
   return (
     <button
       {...rest}
-      className={`${sizes[size || ButtonSize.Default]} ${
-        variants[variant || ButtonVariant.Default]
-      } ${full && 'w-full'} ${className}`}
+      className={classNames(
+        sizes[size || ButtonSize.Default],
+        variants[variant || ButtonVariant.Default],
+        { 'w-full': full },
+        className
+      )}
     >
       {children}
     </button>

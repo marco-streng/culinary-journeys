@@ -1,4 +1,5 @@
 import { Link, type LinkProps } from '@tanstack/react-router';
+import classNames from 'classnames';
 
 export enum LinkButtonVariant {
   Default,
@@ -41,9 +42,13 @@ export const LinkButton = (props: LinkButtonProps) => {
   return (
     <Link
       {...rest}
-      className={`inline-block ${sizes[size || LinkButtonSize.Default]} ${
-        variants[variant || LinkButtonVariant.Default]
-      } ${full && 'w-full'} ${className}`}
+      className={classNames(
+        'inline-block',
+        sizes[size || LinkButtonSize.Default],
+        variants[variant || LinkButtonVariant.Default],
+        { 'w-full': full },
+        className
+      )}
     >
       {children}
     </Link>

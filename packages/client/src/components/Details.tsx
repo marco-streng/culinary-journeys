@@ -1,5 +1,6 @@
 import { useMatch } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 import { useRestaurantQuery } from '../types/gql';
 import { CloseRoutedModalButton } from './CloseRoutedModalButton';
 import { Loader } from './Loader';
@@ -32,7 +33,7 @@ export const Details = () => {
           <>{t('notFound')}</>
         )}
       </div>
-      <div className="bg-gray-50 px-4 py-3">
+      <div className={classNames('bg-gray-50 px-4 py-3')}>
         <CloseRoutedModalButton />
       </div>
     </>

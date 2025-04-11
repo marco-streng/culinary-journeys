@@ -1,4 +1,5 @@
 import { forwardRef, SelectHTMLAttributes } from 'react';
+import classNames from 'classnames';
 
 export const Select = forwardRef<
   HTMLSelectElement,
@@ -13,7 +14,10 @@ export const Select = forwardRef<
     <>
       <select
         ref={ref}
-        className={`text-md w-full rounded-sm border border-gray-300 bg-gray-50 p-2 text-gray-900 outline-sky-900 ${className}`}
+        className={classNames(
+          'text-md w-full rounded-sm border border-gray-300 bg-gray-50 p-2 text-gray-900 outline-sky-900',
+          className
+        )}
         {...rest}
       >
         {options.map((option) => (

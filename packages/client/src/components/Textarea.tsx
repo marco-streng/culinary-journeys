@@ -1,4 +1,5 @@
 import { forwardRef, TextareaHTMLAttributes } from 'react';
+import classNames from 'classnames';
 
 export const Textarea = forwardRef<
   HTMLTextAreaElement,
@@ -10,7 +11,10 @@ export const Textarea = forwardRef<
     <textarea
       ref={ref}
       {...rest}
-      className={`text-md h-32 w-full rounded-sm border border-gray-300 bg-gray-50 p-2 text-gray-900 ${className}`}
+      className={classNames(
+        'text-md h-32 w-full rounded-sm border border-gray-300 bg-gray-50 p-2 text-gray-900',
+        className
+      )}
     />
   );
 });

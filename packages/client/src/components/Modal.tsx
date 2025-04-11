@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import classNames from 'classnames';
 
 const isImageZoomOpen = () =>
   document.querySelectorAll('[data-rmiz-portal] > dialog[open]').length > 0;
@@ -6,9 +7,11 @@ const isImageZoomOpen = () =>
 export const Modal = ({
   children,
   onClose,
+  className,
 }: {
   children: React.ReactNode;
   onClose: () => void;
+  className?: string;
 }) => {
   const innerRef = useRef<HTMLDivElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -35,7 +38,7 @@ export const Modal = ({
   }, []);
 
   return (
-    <div className="relative z-50" role="dialog" aria-modal="true">
+    <div className={classNames('relative z-50', className)} role="dialog" aria-modal="true">
       <div className="fixed inset-0 bg-black bg-opacity-75 transition-opacity"></div>
       <div className="fixed inset-0 z-50 overflow-y-auto">
         <div

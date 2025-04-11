@@ -1,5 +1,6 @@
 import { ReactHTMLElement } from 'react';
 import { BsCheckCircleFill, BsCircle } from 'react-icons/bs';
+import classNames from 'classnames';
 import { RestaurantsQuery } from '../types/gql';
 
 type Restaurant = RestaurantsQuery['restaurants'][0];
@@ -14,7 +15,10 @@ export const RestaurantPin = ({
 
   return (
     <div
-      className="min-w-[100px] cursor-pointer rounded-sm bg-white shadow-xl md:min-w-[220px]"
+      className={classNames(
+        'min-w-[100px] cursor-pointer rounded-sm bg-white shadow-xl md:min-w-[220px]',
+        props.className
+      )}
       {...props}
     >
       <div className="p-1 md:p-3">

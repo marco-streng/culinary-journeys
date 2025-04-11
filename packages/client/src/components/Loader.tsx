@@ -1,10 +1,17 @@
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 
-export const Loader = ({ full = true }) => {
+export const Loader = ({
+  full = true,
+  className,
+}: {
+  full?: boolean;
+  className?: string;
+}) => {
   const { t } = useTranslation();
 
   return (
-    <div className={full ? 'flex h-screen' : 'flex py-8'}>
+    <div className={classNames('flex', { 'h-screen': full, 'py-8': !full }, className)}>
       <div className="m-auto">
         <div role="status">
           <svg

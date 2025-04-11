@@ -1,15 +1,20 @@
 import { BsExclamationCircleFill } from 'react-icons/bs';
+import classNames from 'classnames';
 
 export type ErrorProps = {
   message: string;
+  className?: string;
 };
 
 export const Error = (props: ErrorProps) => {
-  const { message } = props;
+  const { message, className } = props;
 
   return (
     <div
-      className="mt-2 flex items-center rounded-sm border px-3 py-2 text-sm text-gray-600"
+      className={classNames(
+        'mt-2 flex items-center rounded-sm border px-3 py-2 text-sm text-gray-600',
+        className
+      )}
       role="alert"
     >
       <BsExclamationCircleFill size={18} className="fill-sky-600" />

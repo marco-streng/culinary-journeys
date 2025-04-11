@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import classNames from 'classnames';
 
 export type RadioGroupProps = {
   label: string;
@@ -18,7 +19,13 @@ export const RadioGroup = (props: RadioGroupProps) => {
   return (
     <div role="radiogroup" aria-label={label} className={className}>
       {options.map((option) => (
-        <label className="mr-2 inline-block cursor-pointer rounded-sm bg-white px-4 py-2 font-semibold text-gray-800 opacity-50 shadow-xl outline-sky-900 hover:bg-gray-200 hover:opacity-100 has-[:checked]:opacity-100">
+        <label
+          key={option.value}
+          className={classNames(
+            'mr-2 inline-block cursor-pointer rounded-sm bg-white px-4 py-2 font-semibold text-gray-800 opacity-50 shadow-xl outline-sky-900 hover:bg-gray-200 hover:opacity-100',
+            { 'opacity-100': option.checked }
+          )}
+        >
           <input
             onChange={onChange}
             checked={option.checked}

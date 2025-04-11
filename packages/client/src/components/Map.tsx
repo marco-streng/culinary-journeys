@@ -33,6 +33,7 @@ import {
 import { DEFAULT_CENTER, MAP_ID } from '../config';
 import { NotificationPayload, useNotifications } from '../hooks';
 import { RestaurantsQuery } from '../types/gql';
+import classNames from 'classnames';
 
 type ModalKind = 'filter';
 
@@ -113,16 +114,18 @@ export const Map = ({
     <>
       <div className="flex flex-col-reverse md:flex-row">
         <div
-          className={`w-full overflow-y-auto bg-gray-200 md:h-screen ${
-            isSidebarOpen ? 'p-4 md:w-1/3 lg:w-1/4' : 'md:w-0 lg:w-0'
-          }`}
+          className={classNames('w-full overflow-y-auto bg-gray-200 md:h-screen', {
+            'p-4 md:w-1/3 lg:w-1/4': isSidebarOpen,
+            'md:w-0 lg:w-0': !isSidebarOpen,
+          })}
         >
           <button
             type="button"
             aria-label={isSidebarOpen ? t('closeSidebar') : t('openSidebar')}
-            className={`absolute top-1/2 hidden bg-gray-200 md:block ${
-              isSidebarOpen ? 'md:left-1/3 lg:left-1/4' : 'left-0'
-            } z-30`}
+            className={classNames('absolute top-1/2 hidden bg-gray-200 md:block z-30', {
+              'md:left-1/3 lg:left-1/4': isSidebarOpen,
+              'left-0': !isSidebarOpen,
+            })}
             onClick={() => setIsSidebarOpen((value) => !value)}
           >
             {isSidebarOpen ? (
@@ -219,15 +222,16 @@ export const Map = ({
             aria-label={t('logout')}
             variant={ButtonVariant.Light}
             onClick={() => signOut()}
-            className={`mr-2 w-full shadow-xl md:hidden`}
+            className={classNames('mr-2 w-full shadow-xl md:hidden')}
           >
             {t('logout')}
           </Button>
         </div>
         <div
-          className={`shadow-xl ${
-            isSidebarOpen ? 'md:w-2/3 lg:w-3/4' : 'md:w-full lg:w-full'
-          }`}
+          className={classNames('shadow-xl', {
+            'md:w-2/3 lg:w-3/4': isSidebarOpen,
+            'md:w-full lg:w-full': !isSidebarOpen,
+          })}
         >
           <div className="relative">
             <img
@@ -298,7 +302,7 @@ export const Map = ({
                 aria-label={t('logout')}
                 variant={ButtonVariant.Light}
                 onClick={() => signOut()}
-                className={`mr-2 shadow-xl`}
+                className={classNames('mr-2 shadow-xl')}
               >
                 {t('logout')}
               </Button>
@@ -331,6 +335,7 @@ export const Map = ({
                   onClick={() => {
                     navigate({ to: `/restaurant/${restaurant.id}` });
                   }}
+                  key={restaurant.id}
                   position={restaurant.position}
                   title={restaurant.name}
                 >

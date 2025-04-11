@@ -1,6 +1,7 @@
 import { ReactHTMLElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsCheckCircleFill, BsCircle } from 'react-icons/bs';
+import classNames from 'classnames';
 import { RestaurantsQuery } from '../types/gql';
 import { LinkButton, LinkButtonSize, LinkButtonVariant } from './LinkButton';
 import { Rating } from './Rating';
@@ -33,10 +34,13 @@ export const RestaurantCard = ({
 
   return (
     <div
-      className="min-w-[100px] rounded-sm bg-white shadow-xl md:min-w-[220px]"
+      className={classNames(
+        'min-w-[100px] rounded-sm bg-white shadow-xl md:min-w-[220px]',
+        props.className
+      )}
       {...props}
     >
-      <div onClick={() => onSelect(restaurant)} className={'cursor-pointer'}>
+      <div onClick={() => onSelect(restaurant)} className="cursor-pointer">
         <div className="p-3">
           <h2 className="flex items-center">
             <div className="flex-grow">
