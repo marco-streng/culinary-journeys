@@ -27,8 +27,8 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1(react-dom@18.3.1(react@18.2.0))(react-hook-form@7.52.1(react@18.2.0))(react@18.2.0)
       '@tanstack/react-query':
-        specifier: ^4.36.1
-        version: 4.36.1(react-dom@18.3.1(react@18.2.0))(react@18.2.0)
+        specifier: ^5.74.0
+        version: 5.74.0(react@18.2.0)
       '@tanstack/react-router':
         specifier: ^1.45.6
         version: 1.45.6(react-dom@18.3.1(react@18.2.0))(react@18.2.0)
@@ -366,8 +366,8 @@ packages:
   '@aws-cdk/asset-awscli-v1@2.2.202':
     resolution: {integrity: sha512-JqlF0D4+EVugnG5dAsNZMqhu3HW7ehOXm5SDMxMbXNDMdsF0pxtQKNHRl52z1U9igsHmaFpUgSGjbhAJ+0JONg==}
 
-  '@aws-cdk/asset-awscli-v1@2.2.230':
-    resolution: {integrity: sha512-kUnhKIYu42hqBa6a8x2/7o29ObpJgjYGQy28lZDq9awXyvpR62I2bRxrNKNR3uFUQz3ySuT9JXhGHhuZPdbnFw==}
+  '@aws-cdk/asset-awscli-v1@2.2.231':
+    resolution: {integrity: sha512-vPqD/K2pK/ALhU5r5Nafdc2nLB+LJKxNyxUmQnLsazU6AWDJfkqjHQx8m3J4Cjl2C3chQkIRMdzSDuXIlo43GA==}
 
   '@aws-cdk/asset-kubectl-v20@2.1.2':
     resolution: {integrity: sha512-3M2tELJOxQv0apCIiuKQ4pAbncz9GuLwnKFqxifWfe77wuMxyTRPmxssYHs42ePqzap1LT6GDcPygGs+hHstLg==}
@@ -3475,20 +3475,13 @@ packages:
     resolution: {integrity: sha512-n4XXInV9irIq0obRvINIkESkGk280Q+xkIIbswmM0z9nAu2wsIRZNvlmPrtYh6bgNWtItOWWoihFUjLTW8g6Jg==}
     engines: {node: '>=12'}
 
-  '@tanstack/query-core@4.36.1':
-    resolution: {integrity: sha512-DJSilV5+ytBP1FbFcEJovv4rnnm/CokuVvrBEtW/Va9DvuJ3HksbXUJEpI0aV1KtuL4ZoO9AVE6PyNLzF7tLeA==}
+  '@tanstack/query-core@5.74.0':
+    resolution: {integrity: sha512-kMqBfXA06INskI06rm+abAY3/Vi/Kq1nRNfLbpwuhuMJ5lMAI5qASretlvjEO5OJoze6w7OB3pNvsbztirIWWQ==}
 
-  '@tanstack/react-query@4.36.1':
-    resolution: {integrity: sha512-y7ySVHFyyQblPl3J3eQBWpXZkliroki3ARnBKsdJchlgt7yJLRDUcf4B8soufgiYt3pEQIkBWBx1N9/ZPIeUWw==}
+  '@tanstack/react-query@5.74.0':
+    resolution: {integrity: sha512-tT/XQ8FmG5nlN7O8xnYaOM1c1ckJi9+SPKRq+Ay8rV118lefWCoFDQIsF/BarRsLTHijBmSQ6xE9PRugaOqrCQ==}
     peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
+      react: ^18 || ^19
 
   '@tanstack/react-router@1.45.6':
     resolution: {integrity: sha512-Gf7dzYKRFukwRTFCcxZO3OkiuKYCtJKxgcsLz/mrGaMmg942Ef38G5Ft3iY4i62Ev0D5QLTarrK6BkIwz/Z72w==}
@@ -4270,8 +4263,8 @@ packages:
   caniuse-lite@1.0.30001690:
     resolution: {integrity: sha512-5ExiE3qQN6oF8Clf8ifIDcMRCRE/dMGcETG/XGMD8/XiXm6HXQgQTh1yZYLXXpSOsEUlJm1Xr7kGULZTuGtP/w==}
 
-  caniuse-lite@1.0.30001712:
-    resolution: {integrity: sha512-MBqPpGYYdQ7/hfKiet9SCI+nmN5/hp4ZzveOJubl5DTAMa5oggjAuoi0Z4onBpKPFI2ePGnQuQIzF3VxDjDJig==}
+  caniuse-lite@1.0.30001713:
+    resolution: {integrity: sha512-wCIWIg+A4Xr7NfhTuHdX+/FKh3+Op3LBbSp2N5Pfx6T/LhdQy3GTyoTg48BReaW/MyMNZAkTadsBtai3ldWK0Q==}
 
   capital-case@1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
@@ -4633,8 +4626,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.132:
-    resolution: {integrity: sha512-QgX9EBvWGmvSRa74zqfnG7+Eno0Ak0vftBll0Pt2/z5b3bEGYL6OUXLgKPtvx73dn3dvwrlyVkjPKRRlhLYTEg==}
+  electron-to-chromium@1.5.136:
+    resolution: {integrity: sha512-kL4+wUTD7RSA5FHx5YwWtjDnEEkIIikFgWHR4P6fqjw1PPLlqYkxeOb++wAauAssat0YClCy8Y3C5SxgSkjibQ==}
 
   electron-to-chromium@1.5.29:
     resolution: {integrity: sha512-PF8n2AlIhCKXQ+gTpiJi0VhcHDb69kYX4MtCiivctc2QD3XuNZ/XIOlbGzt7WAjjEev0TtaH6Cu3arZExm5DOw==}
@@ -7559,7 +7552,7 @@ snapshots:
 
   '@aws-cdk/asset-awscli-v1@2.2.202': {}
 
-  '@aws-cdk/asset-awscli-v1@2.2.230': {}
+  '@aws-cdk/asset-awscli-v1@2.2.231': {}
 
   '@aws-cdk/asset-kubectl-v20@2.1.2': {}
 
@@ -12537,15 +12530,12 @@ snapshots:
 
   '@tanstack/history@1.45.3': {}
 
-  '@tanstack/query-core@4.36.1': {}
+  '@tanstack/query-core@5.74.0': {}
 
-  '@tanstack/react-query@4.36.1(react-dom@18.3.1(react@18.2.0))(react@18.2.0)':
+  '@tanstack/react-query@5.74.0(react@18.2.0)':
     dependencies:
-      '@tanstack/query-core': 4.36.1
+      '@tanstack/query-core': 5.74.0
       react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
-    optionalDependencies:
-      react-dom: 18.3.1(react@18.2.0)
 
   '@tanstack/react-router@1.45.6(react-dom@18.3.1(react@18.2.0))(react@18.2.0)':
     dependencies:
@@ -13265,7 +13255,7 @@ snapshots:
 
   aws-cdk-lib@2.150.0(constructs@10.3.0):
     dependencies:
-      '@aws-cdk/asset-awscli-v1': 2.2.230
+      '@aws-cdk/asset-awscli-v1': 2.2.231
       '@aws-cdk/asset-kubectl-v20': 2.1.4
       '@aws-cdk/asset-node-proxy-agent-v6': 2.1.0
       constructs: 10.3.0
@@ -13434,8 +13424,8 @@ snapshots:
 
   browserslist@4.24.4:
     dependencies:
-      caniuse-lite: 1.0.30001712
-      electron-to-chromium: 1.5.132
+      caniuse-lite: 1.0.30001713
+      electron-to-chromium: 1.5.136
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.24.4)
 
@@ -13502,7 +13492,7 @@ snapshots:
 
   caniuse-lite@1.0.30001690: {}
 
-  caniuse-lite@1.0.30001712: {}
+  caniuse-lite@1.0.30001713: {}
 
   capital-case@1.0.4:
     dependencies:
@@ -13870,7 +13860,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.5.132: {}
+  electron-to-chromium@1.5.136: {}
 
   electron-to-chromium@1.5.29: {}
 
