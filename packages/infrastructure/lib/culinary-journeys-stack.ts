@@ -587,10 +587,6 @@ export class CulinaryJourneysStack extends Stack {
         }),
       },
     );
-    const originAccessIdentity = new aws_cloudfront.OriginAccessIdentity(
-      this,
-      'OriginAccessIdentity',
-    );
     const cloudFrontDistribution = new aws_cloudfront.Distribution(
       this,
       'Distribution',
@@ -605,9 +601,10 @@ export class CulinaryJourneysStack extends Stack {
           ),
         }),
         defaultBehavior: {
-          origin: new aws_cloudfront_origins.S3Origin(clientBucket, {
-            originAccessIdentity,
-          }),
+          origin:
+            aws_cloudfront_origins.S3BucketOrigin.withOriginAccessControl(
+              clientBucket,
+            ),
           functionAssociations: [
             {
               eventType: aws_cloudfront.FunctionEventType.VIEWER_REQUEST,
@@ -620,9 +617,10 @@ export class CulinaryJourneysStack extends Stack {
         additionalBehaviors: {
           'images/*': {
             origin: new aws_cloudfront_origins.OriginGroup({
-              primaryOrigin: new aws_cloudfront_origins.S3Origin(
-                transformedImageBucket,
-              ),
+              primaryOrigin:
+                aws_cloudfront_origins.S3BucketOrigin.withOriginAccessControl(
+                  transformedImageBucket,
+                ),
               fallbackOrigin: new aws_cloudfront_origins.HttpOrigin(
                 Fn.select(2, Fn.split('/', imageProcessingFunctionUrl.url)),
                 {
