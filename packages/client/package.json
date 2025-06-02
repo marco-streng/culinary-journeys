@@ -19,7 +19,7 @@
     "@tanstack/react-router": "^1.45.6",
     "@tanstack/router-cli": "^1.54.0",
     "@tanstack/router-devtools": "^1.45.6",
-    "@tanstack/router-plugin": "^1.45.13",
+    "@tanstack/router-plugin": "^1.120.13",
     "@vis.gl/react-google-maps": "^1.0.0",
     "autoprefixer": "^10.4.20",
     "aws-amplify": "^6.3.4",
