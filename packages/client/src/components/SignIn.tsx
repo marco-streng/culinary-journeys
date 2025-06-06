@@ -92,10 +92,6 @@ export const SignIn = ({
     }
   };
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   if (state === 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED') {
     return (
       <div className="flex h-screen">
@@ -115,22 +111,24 @@ export const SignIn = ({
               <p>{message}</p>
             </div>
           )}
-          <form onSubmit={handleChangePassword}>
-            <InputWrapper>
-              <Input
-                ref={passwordUsernameRef}
-                name="password"
-                required
-                type="password"
-                placeholder={t('password')}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <Button full type="submit">
-                {t('changePassword')}
-              </Button>
-            </InputWrapper>
-          </form>
+          <OverlayLoader isLoading={isLoading}>
+            <form onSubmit={handleChangePassword}>
+              <InputWrapper>
+                <Input
+                  ref={passwordUsernameRef}
+                  name="password"
+                  required
+                  type="password"
+                  placeholder={t('password')}
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <Button full type="submit">
+                  {t('changePassword')}
+                </Button>
+              </InputWrapper>
+            </form>
+          </OverlayLoader>
           <div className="mt-10 rounded-sm text-xs leading-relaxed text-gray-400">
             <div className="mb-2 font-bold">
               <BsInfoCircleFill className="mr-1 inline" size={15} />{' '}
@@ -167,31 +165,53 @@ export const SignIn = ({
           alt="Culinary Journeys"
           className="mx-auto mb-20 w-40"
         />
-        <form onSubmit={handleSignIn}>
-          <InputWrapper>
-            <Input
-              ref={inputUsernameRef}
-              name="username"
-              required
-              placeholder={t('username')}
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <Input
-              ref={passwordUsernameRef}
-              name="password"
-              required
-              type="password"
-              placeholder={t('password')}
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <Button full type="submit">
-              {t('login')}
-            </Button>
-          </InputWrapper>
-        </form>
+        <OverlayLoader isLoading={isLoading}>
+          <form onSubmit={handleSignIn}>
+            <InputWrapper>
+              <Input
+                ref={inputUsernameRef}
+                name="username"
+                required
+                placeholder={t('username')}
+              />
+            </InputWrapper>
+            <InputWrapper>
+              <Input
+                ref={passwordUsernameRef}
+                name="password"
+                required
+                type="password"
+                placeholder={t('password')}
+              />
+            </InputWrapper>
+            <InputWrapper>
+              <Button full type="submit">
+                {t('login')}
+              </Button>
+            </InputWrapper>
+          </form>
+        </OverlayLoader>
       </div>
     </div>
   );
 };
+
+const OverlayLoader = ({
+  isLoading,
+  children,
+}: {
+  isLoading: boolean;
+  children: React.ReactNode;
+}) => (
+  <div className="relative">
+    {isLoading ? (
+      <>
+        <div className="absolute left-0 top-0 z-[10] flex h-full w-full items-center justify-center">
+          <Loader full={false} />
+        </div>
+        <div className="absolute h-full w-full bg-white bg-opacity-80" />
+      </>
+    ) : null}
+    {children}
+  </div>
+);
