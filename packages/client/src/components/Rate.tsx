@@ -129,7 +129,7 @@ export const Rate = () => {
               <div className="basis-1/4">
                 <Label>{t('stars')}</Label>
               </div>
-              <div className="basis-3/4">
+              <div className="ci-rating basis-3/4">
                 <Controller
                   name="value"
                   control={control}
