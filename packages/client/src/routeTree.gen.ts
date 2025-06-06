@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AddImport } from './routes/add'
+import { Route as IndexImport } from './routes/index'
 import { Route as RestaurantIdIndexImport } from './routes/restaurant.$id.index'
 import { Route as RestaurantIdRateImport } from './routes/restaurant.$id.rate'
 import { Route as RestaurantIdAddVisitImport } from './routes/restaurant.$id.add-visit'
@@ -21,6 +22,12 @@ import { Route as RestaurantIdAddVisitImport } from './routes/restaurant.$id.add
 const AddRoute = AddImport.update({
   id: '/add',
   path: '/add',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const IndexRoute = IndexImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,6 +53,13 @@ const RestaurantIdAddVisitRoute = RestaurantIdAddVisitImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
     '/add': {
       id: '/add'
       path: '/add'
@@ -80,6 +94,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/add': typeof AddRoute
   '/restaurant/$id/add-visit': typeof RestaurantIdAddVisitRoute
   '/restaurant/$id/rate': typeof RestaurantIdRateRoute
@@ -87,6 +102,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/add': typeof AddRoute
   '/restaurant/$id/add-visit': typeof RestaurantIdAddVisitRoute
   '/restaurant/$id/rate': typeof RestaurantIdRateRoute
@@ -95,6 +111,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/': typeof IndexRoute
   '/add': typeof AddRoute
   '/restaurant/$id/add-visit': typeof RestaurantIdAddVisitRoute
   '/restaurant/$id/rate': typeof RestaurantIdRateRoute
@@ -104,18 +121,21 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/add'
     | '/restaurant/$id/add-visit'
     | '/restaurant/$id/rate'
     | '/restaurant/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/add'
     | '/restaurant/$id/add-visit'
     | '/restaurant/$id/rate'
     | '/restaurant/$id'
   id:
     | '__root__'
+    | '/'
     | '/add'
     | '/restaurant/$id/add-visit'
     | '/restaurant/$id/rate'
@@ -124,6 +144,7 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AddRoute: typeof AddRoute
   RestaurantIdAddVisitRoute: typeof RestaurantIdAddVisitRoute
   RestaurantIdRateRoute: typeof RestaurantIdRateRoute
@@ -131,6 +152,7 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AddRoute: AddRoute,
   RestaurantIdAddVisitRoute: RestaurantIdAddVisitRoute,
   RestaurantIdRateRoute: RestaurantIdRateRoute,
@@ -147,11 +169,15 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/",
         "/add",
         "/restaurant/$id/add-visit",
         "/restaurant/$id/rate",
         "/restaurant/$id/"
       ]
+    },
+    "/": {
+      "filePath": "index.tsx"
     },
     "/add": {
       "filePath": "add.tsx"

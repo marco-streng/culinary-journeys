@@ -6,7 +6,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    TanStackRouterVite(),
+    TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
     react(),
     VitePWA({
       registerType: 'autoUpdate',
