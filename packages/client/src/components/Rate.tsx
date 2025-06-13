@@ -154,6 +154,9 @@ export const Rate = () => {
                             (field.state.value ?? 0) >= nr + 1 &&
                             'ci-rating_star--active'
                           }`}
+                          role="radio"
+                          aria-checked={field.state.value === nr + 1}
+                          aria-label={`${nr + 1}`}
                           onClick={() => field.handleChange(nr + 1)}
                         />
                       ))}
@@ -173,6 +176,7 @@ export const Rate = () => {
                   name="comment"
                   children={(field) => (
                     <Textarea
+                      id="comment"
                       name={field.name}
                       value={field.state.value}
                       onBlur={field.handleBlur}
