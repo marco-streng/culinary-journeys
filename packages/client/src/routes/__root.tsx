@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { createRootRoute } from '@tanstack/react-router';
+import { createRootRouteWithContext } from '@tanstack/react-router';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { Amplify } from 'aws-amplify';
 import { getCurrentUser } from 'aws-amplify/auth';
@@ -234,6 +234,13 @@ const App = () => {
   );
 };
 
-export const Route = createRootRoute({
+type RouterContext = {
+  title?: string;
+};
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: App,
+  beforeLoad: () => ({
+    title: 'Culinary Journeys',
+  }),
 });

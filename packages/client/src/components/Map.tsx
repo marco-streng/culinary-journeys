@@ -1,4 +1,9 @@
-import { Outlet, useNavigate, useRouterState } from '@tanstack/react-router';
+import {
+  Outlet,
+  useMatches,
+  useNavigate,
+  useRouterState,
+} from '@tanstack/react-router';
 import {
   AdvancedMarker,
   Map as GoogleMap,
@@ -7,6 +12,7 @@ import {
 import { signOut } from 'aws-amplify/auth';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import {
   BiChevronLeft,
@@ -73,6 +79,9 @@ export const Map = ({
   const [modal, setModal] = useState<ModalProps>({
     isVisible: false,
   });
+
+  const matches = useMatches();
+
   const [filter, setFilter] = useState<Filter>('all');
   const [listSearch, setListSearch] = useState<string | undefined>();
   const [visitedFirst, setVisitedFirst] = useState(true);
@@ -111,6 +120,15 @@ export const Map = ({
 
   return (
     <>
+      <Helmet>
+        <title>
+          {matches
+            .map((match) => match.context.title)
+            .filter((title) => !!title)
+            .join(' | ')}
+        </title>
+      </Helmet>
+
       <div className="flex flex-col-reverse md:flex-row">
         <div
           className={`w-full overflow-y-auto bg-gray-200 md:h-screen ${
@@ -343,7 +361,7 @@ export const Map = ({
       </div>
 
       {modal.isVisible && (
-        <Modal onClose={handleCloseModal}>
+        <Modal label={t('filter')} onClose={handleCloseModal}>
           {modal.kind === 'filter' && (
             <Filter
               filter={filter}
@@ -355,15 +373,11 @@ export const Map = ({
       )}
 
       {location.pathname !== '/' && (
-        <Modal onClose={handleCloseRoutedModal}>
+        <Modal
+          label={matches[matches.length - 1].context.title ?? ''}
+          onClose={handleCloseRoutedModal}
+        >
           <Outlet />
-          {modal.kind === 'filter' && (
-            <Filter
-              filter={filter}
-              onChange={(value) => setFilter(value)}
-              onClose={handleCloseRoutedModal}
-            />
-          )}
         </Modal>
       )}
     </>

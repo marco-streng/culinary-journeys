@@ -5,9 +5,11 @@ const isImageZoomOpen = () =>
 
 export const Modal = ({
   children,
+  label,
   onClose,
 }: {
   children: React.ReactNode;
+  label: string;
   onClose: () => void;
 }) => {
   const innerRef = useRef<HTMLDivElement>(null);
@@ -35,7 +37,12 @@ export const Modal = ({
   }, []);
 
   return (
-    <div className="relative z-50" role="dialog" aria-modal="true">
+    <div
+      className="relative z-50"
+      role="dialog"
+      aria-modal="true"
+      aria-label={label}
+    >
       <div className="fixed inset-0 bg-black bg-opacity-75 transition-opacity"></div>
       <div className="fixed inset-0 z-50 overflow-y-auto">
         <div
