@@ -67,7 +67,7 @@ export class CulinaryJourneysStack extends Stack {
       this,
       'cognitoTriggerLambda',
       {
-        runtime: aws_lambda.Runtime.NODEJS_18_X,
+        runtime: aws_lambda.Runtime.NODEJS_22_X,
         architecture: aws_lambda.Architecture.ARM_64,
         entry: path.join(
           __dirname,
@@ -194,7 +194,7 @@ export class CulinaryJourneysStack extends Stack {
       this,
       'imageProcessingLambda',
       {
-        runtime: aws_lambda.Runtime.NODEJS_18_X,
+        runtime: aws_lambda.Runtime.NODEJS_22_X,
         entry: path.join(
           __dirname,
           '..',
@@ -231,7 +231,7 @@ export class CulinaryJourneysStack extends Stack {
       this,
       'emailLambda',
       {
-        runtime: aws_lambda.Runtime.NODEJS_18_X,
+        runtime: aws_lambda.Runtime.NODEJS_22_X,
         architecture: aws_lambda.Architecture.ARM_64,
         entry: path.join(__dirname, '..', 'src', 'functions', 'sendEmail.tsx'),
         memorySize: 512,
@@ -261,7 +261,7 @@ export class CulinaryJourneysStack extends Stack {
       this,
       'createUploadUrlsLambda',
       {
-        runtime: aws_lambda.Runtime.NODEJS_18_X,
+        runtime: aws_lambda.Runtime.NODEJS_22_X,
         architecture: aws_lambda.Architecture.ARM_64,
         entry: path.join(
           __dirname,
@@ -283,7 +283,7 @@ export class CulinaryJourneysStack extends Stack {
       this,
       'createImagesLambda',
       {
-        runtime: aws_lambda.Runtime.NODEJS_18_X,
+        runtime: aws_lambda.Runtime.NODEJS_22_X,
         architecture: aws_lambda.Architecture.ARM_64,
         entry: path.join(
           __dirname,
@@ -305,7 +305,7 @@ export class CulinaryJourneysStack extends Stack {
       this,
       'groupsLambda',
       {
-        runtime: aws_lambda.Runtime.NODEJS_18_X,
+        runtime: aws_lambda.Runtime.NODEJS_22_X,
         architecture: aws_lambda.Architecture.ARM_64,
         entry: path.join(__dirname, '..', 'src', 'functions', 'groups.ts'),
         memorySize: 128,
@@ -321,7 +321,7 @@ export class CulinaryJourneysStack extends Stack {
       this,
       'createUserLambda',
       {
-        runtime: aws_lambda.Runtime.NODEJS_18_X,
+        runtime: aws_lambda.Runtime.NODEJS_22_X,
         architecture: aws_lambda.Architecture.ARM_64,
         entry: path.join(__dirname, '..', 'src', 'functions', 'createUser.ts'),
         memorySize: 128,
@@ -340,7 +340,7 @@ export class CulinaryJourneysStack extends Stack {
       this,
       'updateUserLambda',
       {
-        runtime: aws_lambda.Runtime.NODEJS_18_X,
+        runtime: aws_lambda.Runtime.NODEJS_22_X,
         architecture: aws_lambda.Architecture.ARM_64,
         entry: path.join(__dirname, '..', 'src', 'functions', 'updateUser.ts'),
         memorySize: 128,
@@ -358,7 +358,7 @@ export class CulinaryJourneysStack extends Stack {
       this,
       'createGroupLambda',
       {
-        runtime: aws_lambda.Runtime.NODEJS_18_X,
+        runtime: aws_lambda.Runtime.NODEJS_22_X,
         architecture: aws_lambda.Architecture.ARM_64,
         entry: path.join(__dirname, '..', 'src', 'functions', 'createGroup.ts'),
         memorySize: 128,
